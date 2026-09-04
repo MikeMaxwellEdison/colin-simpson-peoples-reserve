@@ -113,6 +113,12 @@
     return `${colour} rg BT /F1 ${size} Tf ${x.toFixed(2)} ${y} Td (${safeText}) Tj ET`;
   }
 
+  function pdfTimesBoldCentered(text, y, size, colour) {
+    const safeText = pdfEscape(text);
+    const x = Math.max(42, (PDF_PAGE_WIDTH - timesRomanTextWidth(text, size)) / 2);
+    return `${colour} rg BT /F2 ${size} Tf ${x.toFixed(2)} ${y} Td (${safeText}) Tj ET`;
+  }
+
   function buildCertificatePdf(result) {
     if (!result || !Number.isFinite(Number(result.totalHits))) {
       throw new Error("A completed calculation is required to make the certificate.");
@@ -139,7 +145,7 @@
       pdfText("This certifies that", 400, "F3", 15, ivory, 0.48),
       pdfText("COLIN SIMPSON", 354, "F2", 37, brightGold, 0.58),
       pdfTimesRomanCentered("has, after careful family calculation, hit the little white ball an estimated", 317, 13, ivory),
-      pdfText(hitLabel, 245, "F2", hitLabel.length > 9 ? 50 : 59, brightGold, 0.58),
+      pdfTimesBoldCentered(hitLabel, 245, hitLabel.length > 9 ? 50 : 59, brightGold),
       pdfText("TIMES", 211, "F2", 15, ivory, 0.62),
       `${gold} RG 0.8 w 205 184 m 637 184 l S`,
       pdfText(summary, 157, "F1", 11, ivory, 0.48),

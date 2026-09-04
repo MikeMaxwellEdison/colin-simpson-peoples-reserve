@@ -1,5 +1,16 @@
 const header = document.querySelector("[data-header]");
 const revealItems = document.querySelectorAll("[data-reveal]");
+const navToggle = document.querySelector("[data-nav-toggle]");
+const nav = document.querySelector("[data-nav]");
+
+const details = window.COLIN_PAGE_DETAILS ?? {};
+
+document.querySelectorAll("[data-detail]").forEach((element) => {
+  const key = element.dataset.detail;
+  if (key && typeof details[key] === "string" && details[key].trim()) {
+    element.textContent = details[key];
+  }
+});
 
 const updateHeader = () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 28);
@@ -7,6 +18,23 @@ const updateHeader = () => {
 
 updateHeader();
 window.addEventListener("scroll", updateHeader, { passive: true });
+
+const closeNav = () => {
+  navToggle?.setAttribute("aria-expanded", "false");
+  nav?.classList.remove("is-open");
+};
+
+navToggle?.addEventListener("click", () => {
+  const nextState = navToggle.getAttribute("aria-expanded") !== "true";
+  navToggle.setAttribute("aria-expanded", String(nextState));
+  nav?.classList.toggle("is-open", nextState);
+});
+
+nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeNav));
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeNav();
+});
 
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver(

@@ -3,117 +3,111 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2b1013" />
+    <meta name="theme-color" content="#090908" />
     <meta
       name="description"
-      content="A growing collection of family memories, Repco stories, fairways and good company — celebrating Colin Simpson, The People’s Reserve."
+      content="Family, Repco years, fairways, travels and good company — celebrating Colin Simpson, The People’s Reserve, for Father’s Day 2026."
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_NZ" />
     <meta property="og:title" content="Colin Simpson — The People’s Reserve" />
     <meta
       property="og:description"
-      content="Family, friends, fairways and good company. A memory page for a life measured in people."
+      content="A life measured in people. A Father’s Day collection of family, work, golf and travel memories."
     />
-    <meta
-      property="og:url"
-      content="https://mikemaxwelledison.github.io/colin-simpson-peoples-reserve/"
-    />
-    <meta
-      property="og:image"
-      content="https://mikemaxwelledison.github.io/colin-simpson-peoples-reserve/og.png"
-    />
+    <meta property="og:url" content="https://mikemaxwelledison.github.io/colin-simpson-peoples-reserve/" />
+    <meta property="og:image" content="https://mikemaxwelledison.github.io/colin-simpson-peoples-reserve/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Colin Simpson — The People’s Reserve" />
-    <meta
-      name="twitter:description"
-      content="Family, friends, fairways and good company. A memory page for a life measured in people."
-    />
-    <meta
-      name="twitter:image"
-      content="https://mikemaxwelledison.github.io/colin-simpson-peoples-reserve/og.png"
-    />
+    <meta name="twitter:description" content="A life measured in people. Father’s Day 2026." />
+    <meta name="twitter:image" content="https://mikemaxwelledison.github.io/colin-simpson-peoples-reserve/og.png" />
     <title>Colin Simpson — The People’s Reserve</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Italianno&family=Montserrat:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <link rel="preload" as="image" href="assets/images/hero-two-sir-colins.webp" />
     <link rel="stylesheet" href="styles.css" />
+    <script src="editable-details.js" defer></script>
     <script src="script.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to the memories</a>
 
     <header class="site-header" data-header>
-      <a class="wordmark" href="#top" aria-label="Back to the top">
+      <a class="wordmark" href="#top" aria-label="Colin Simpson — back to the top">
         <span class="wordmark-mark" aria-hidden="true">CS</span>
         <span class="wordmark-copy">
           <strong>The People’s Reserve</strong>
-          <span>Colin Simpson · Est. one of one</span>
+          <span>Father’s Day · Vintage 2026</span>
         </span>
       </a>
-      <nav class="site-nav" aria-label="Memory page sections">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+        <span>Menu</span><i aria-hidden="true"></i>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Page sections" data-nav>
+        <a href="#messages">Messages</a>
         <a href="#family">Family</a>
+        <a href="#wine">The wine</a>
+        <a href="#golf">Golf</a>
         <a href="#repco">Repco</a>
-        <a href="#golf">Golf &amp; mates</a>
-        <a href="#stories">Stories</a>
+        <a href="#travels">Travels</a>
       </nav>
     </header>
 
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
-        <div class="hero-vine" aria-hidden="true"></div>
+        <div class="label-lines" aria-hidden="true"></div>
         <div class="hero-copy" data-reveal>
+          <div class="crest" aria-hidden="true"><span>CS</span></div>
           <p class="eyebrow">Family · Friends · Fairways · Good company</p>
-          <h1 id="hero-title">
-            <span>Colin Simpson</span>
-            The People’s Reserve
-          </h1>
+          <h1 id="hero-title"><span>Colin Simpson</span>The People’s Reserve</h1>
+          <div class="vintage-line" aria-label="Father’s Day selection, vintage 2026">
+            <span>Father’s Day selection</span><strong>2026</strong><span>One of one</span>
+          </div>
           <p class="hero-intro">
             A carefully matured original, known for bringing people together,
             remembering what matters and always having one more story for the table.
           </p>
-          <a class="button" href="#message">
-            <span>Pull up a chair</span>
-            <span aria-hidden="true">↓</span>
+          <a class="button button-gold" href="#messages">
+            <span>Open the family collection</span><span aria-hidden="true">↓</span>
           </a>
         </div>
 
-        <div class="portrait-frame" data-reveal>
-          <div class="portrait-placeholder" role="img" aria-label="Reserved space for a favourite portrait of Colin">
-            <span class="portrait-monogram" aria-hidden="true">CS</span>
-            <p><strong>A favourite photo of Colin</strong><br />will take pride of place here.</p>
+        <figure class="hero-portrait" data-reveal>
+          <div class="photo-mat">
+            <img
+              src="assets/images/hero-two-sir-colins.webp"
+              alt="Colin standing beside the Sir Colin Meads statue in Te Kūiti"
+              width="1350"
+              height="1800"
+              fetchpriority="high"
+            />
           </div>
+          <figcaption><strong>Two Sir Colins</strong><span>Te Kūiti</span></figcaption>
           <div class="vintage-seal" aria-label="Celebrating Colin at 75">
-            <span>Celebrating</span>
-            <strong>75</strong>
-            <span>remarkable years</span>
+            <span>Celebrating</span><strong>75</strong><span>remarkable years</span>
           </div>
-        </div>
-
-        <div class="scroll-note" aria-hidden="true">
-          <span></span>
-          A life measured in people
-        </div>
+        </figure>
       </section>
 
       <section class="opening section-shell" aria-labelledby="opening-title">
         <div class="section-number" aria-hidden="true">01</div>
         <div class="opening-heading" data-reveal>
-          <p class="eyebrow wine">Cellar master’s notes</p>
-          <h2 id="opening-title">The best evidence of a life well spent isn’t on a CV.</h2>
+          <p class="eyebrow ink">Cellar master’s notes</p>
+          <h2 id="opening-title">A life measured in people.</h2>
         </div>
         <div class="opening-copy" data-reveal>
           <p>
-            Some people measure a career by titles, results and years served.
-            Colin has always seemed to measure his by people — by building them up,
-            knowing their families and creating places where everyone felt part of something.
+            Born in Foxton and raised in Karori, Colin went on to build a life around
+            family, friendship, work done properly and stories worth retelling.
           </p>
           <p>
-            This is the beginning of his archive: a place for the photographs,
-            names and stories gathered over a lifetime of showing up.
+            Some people measure a career by titles, results and years served. Colin has
+            always seemed to measure his by people: building them up, knowing their
+            families and creating places where everyone felt part of something.
           </p>
         </div>
       </section>
@@ -123,132 +117,306 @@
         <p>It’s the number of people still happy to pull up a chair.</p>
       </blockquote>
 
-      <section class="memory-section section-shell" id="family" aria-labelledby="family-title">
-        <div class="section-number" aria-hidden="true">02</div>
-        <div class="memory-copy" data-reveal>
-          <p class="eyebrow wine">The heart of it all</p>
-          <h2 id="family-title">Family</h2>
-          <p class="lead">
-            The names he never forgets, the milestones he keeps track of and the people
-            who have always come first.
-          </p>
-          <p class="placeholder-note">
-            This space is ready for favourite family photographs, celebrations and the
-            little moments that deserve to be kept.
-          </p>
-        </div>
-        <div class="photo-pair" data-reveal>
-          <div class="photo-placeholder portrait-orientation">
-            <span>Family photograph</span>
-            <small>To be added</small>
+      <section class="messages dark-panel" id="messages" aria-labelledby="messages-title">
+        <div class="section-shell section-pad">
+          <div class="section-number light" aria-hidden="true">02</div>
+          <header class="section-heading centered" data-reveal>
+            <p class="eyebrow gold">Bottled especially for Dad</p>
+            <h2 id="messages-title">Father’s Day messages</h2>
+            <p>
+              For 37 years Colin has been Dad — steady, practical, proudly encouraging
+              and never far away when something needs sorting. Now the family gets the final word.
+            </p>
+          </header>
+
+          <div class="video-grid">
+            <article class="video-card" data-reveal>
+              <div class="video-frame landscape-video">
+                <video controls playsinline preload="metadata" poster="assets/images/message-willa-short.webp" aria-label="Willa’s short Father’s Day message for Poppa">
+                  <source src="assets/videos/willa-short.mp4" type="video/mp4" />
+                  Your browser cannot play this video.
+                </video>
+              </div>
+              <div class="video-copy">
+                <span class="card-kicker">Willa · For Poppa</span>
+                <h3>The best Poppa she has ever met</h3>
+                <p>Nice, kind, a little bit cheeky — and very good at hugs and stories.</p>
+                <a class="text-link" href="willa.html">Watch Willa’s full message <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+
+            <article class="video-card" data-reveal>
+              <div class="video-frame landscape-video">
+                <video controls playsinline preload="metadata" poster="assets/images/message-ally-susie.webp" aria-label="A Father’s Day message from Ally and Susie">
+                  <source src="assets/videos/ally-susie.mp4" type="video/mp4" />
+                  Your browser cannot play this video.
+                </video>
+              </div>
+              <div class="video-copy">
+                <span class="card-kicker">Ally &amp; Susie · For Colin</span>
+                <h3>A message from two people who know him well</h3>
+                <p>A short Father’s Day contribution, delivered with love.</p>
+              </div>
+            </article>
+
+            <article class="video-card video-card-coming" data-reveal>
+              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Laura">
+                <span class="phone-outline" aria-hidden="true"><i>LS</i></span>
+                <strong>Laura’s message</strong><small>Coming soon</small>
+              </div>
+              <div class="video-copy">
+                <span class="card-kicker">Laura · For Dad</span>
+                <h3>A Father’s Day message from Laura</h3>
+                <p>This portrait video will be added here as soon as it is ready.</p>
+              </div>
+            </article>
+
+            <article class="video-card video-card-coming" data-reveal>
+              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Mike">
+                <span class="phone-outline" aria-hidden="true"><i>MS</i></span>
+                <strong>Mike’s message</strong><small>Coming soon</small>
+              </div>
+              <div class="video-copy">
+                <span class="card-kicker">Mike · For Dad</span>
+                <h3>A Father’s Day message from Mike</h3>
+                <p>This portrait video will be added here as soon as it is ready.</p>
+              </div>
+            </article>
           </div>
-          <div class="photo-placeholder landscape-orientation">
-            <span>A moment worth keeping</span>
-            <small>To be added</small>
-          </div>
+
+          <figure class="feature-photo blossom-feature" data-reveal>
+            <img
+              src="assets/images/family-blossom-2024.webp"
+              alt="Laura, Colin, Ally, Mike and Willa together among illuminated blossom trees"
+              width="1350"
+              height="1800"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>
+              <strong>Family among the blossoms</strong>
+              <span>Laura, Colin, Ally, Mike and Willa at Blossom Valley’s Cherry Blossoms After Dark, 19 September 2024.</span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      <section class="memory-section dark-section" id="repco" aria-labelledby="repco-title">
-        <div class="dark-inner section-shell">
-          <div class="section-number" aria-hidden="true">03</div>
-          <div class="memory-copy" data-reveal>
-            <p class="eyebrow gold">A career built around people</p>
-            <h2 id="repco-title">40+ Years at Repco</h2>
+      <section class="family section-shell section-pad" id="family" aria-labelledby="family-title">
+        <div class="section-number" aria-hidden="true">03</div>
+        <header class="section-heading split-heading" data-reveal>
+          <div><p class="eyebrow ink">The heart of it all</p><h2 id="family-title">The home team</h2></div>
+          <div>
             <p class="lead">
-              Four decades of leadership — and an even longer list of people who felt
-              remembered, included and worth something because Colin took the time.
+              From a blind date in November 1986 and their wedding on 25 February 1989,
+              Colin and Ally built a life in which family was never a background detail.
             </p>
-            <p class="placeholder-note light">
-              Soon: photographs from across the years, stories from his teams and memories
-              from the families he made part of the Repco community.
+            <p>
+              Laura and Mike grew up with a dad who built sandpits, playhouses, swings,
+              decks and gardens — and once produced a rabbit hutch grand enough to be
+              described as a two-storey mansion. Then Willa arrived, and Dad became Poppa.
             </p>
           </div>
-          <div class="repco-marker" data-reveal>
-            <span class="marker-top">More than</span>
-            <strong>40</strong>
-            <span>years at Repco</span>
-            <i aria-hidden="true"></i>
-            <p>Countless people<br />brought along for the ride.</p>
+        </header>
+
+        <div class="family-gallery">
+          <figure class="photo-card photo-card-tall" data-reveal>
+            <img src="assets/images/family-wedding-1989.webp" alt="Colin and Ally cutting their wedding cake in 1989" width="1570" height="1600" loading="lazy" decoding="async" />
+            <figcaption><strong>25 February 1989</strong><span>Colin and Ally on their wedding day. They had met on a blind date in November 1986; the smiles say the rest.</span></figcaption>
+          </figure>
+          <figure class="photo-card" data-reveal>
+            <img src="assets/images/family-early.webp" alt="Mike, Ally, Colin and Laura seated together in an early family portrait" width="1600" height="1228" loading="lazy" decoding="async" />
+            <figcaption data-detail="earlyFamily">Mike, Ally, Colin and Laura in an early family portrait.</figcaption>
+          </figure>
+          <figure class="photo-card" data-reveal>
+            <img src="assets/images/family-christmas-2011.webp" alt="Colin, Ally and Laura seated around the table on Christmas Day 2011" width="1800" height="1350" loading="lazy" decoding="async" />
+            <figcaption><strong>Christmas Day · 2011</strong><span>Colin, Ally and Laura together around the family table.</span></figcaption>
+          </figure>
+          <figure class="photo-card photo-card-wide" data-reveal>
+            <img src="assets/images/family-brothers-1989.webp" alt="The seven Simpson brothers standing together in February 1989" width="1800" height="1350" loading="lazy" decoding="async" />
+            <figcaption><strong>The seven Simpson brothers · February 1989</strong><span>Ron, Lindsay, Les, Bruce, Colin, Graeme and Wayne. Colin is fifth from the left.</span></figcaption>
+          </figure>
+        </div>
+
+        <aside class="poppa-callout" data-reveal>
+          <figure><img src="assets/images/willa-walking-2022.webp" alt="Colin and Willa walking together outdoors in 2022" width="900" height="1200" loading="lazy" decoding="async" /></figure>
+          <div>
+            <p class="eyebrow ink">The Poppa years</p>
+            <h3>Little School, train outings and telling the stories properly.</h3>
+            <p>Poppa’s job description has grown to include garden competitions, monkey bars, big bad wolves, the three little pigs and one very important audience.</p>
+            <a class="button button-outline" href="willa.html">See Willa’s page <span aria-hidden="true">→</span></a>
           </div>
+        </aside>
+
+        <details class="archive-drawer" data-reveal>
+          <summary><span>From the early family archive</span><small>Three captions ready for Mum’s details</small></summary>
+          <div class="archive-grid">
+            <figure class="photo-card">
+              <img src="assets/images/archive-school-1956.webp" alt="A 1956 school class photograph from Colin’s family archive" width="2200" height="1650" loading="lazy" decoding="async" />
+              <figcaption data-detail="school1956">A 1956 school photograph from Colin’s family archive.</figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="assets/images/archive-hockey-1961.webp" alt="A 1961 hockey team photograph from Colin’s family archive" width="2200" height="1650" loading="lazy" decoding="async" />
+              <figcaption data-detail="hockey1961">A 1961 hockey photograph from Colin’s family archive.</figcaption>
+            </figure>
+            <figure class="photo-card photo-card-portrait">
+              <img src="assets/images/archive-young-colin-tux.webp" alt="A young Colin dressed in a tuxedo" width="1000" height="1500" loading="lazy" decoding="async" />
+              <figcaption data-detail="youngTux">A young Colin dressed for a special occasion.</figcaption>
+            </figure>
+          </div>
+        </details>
+      </section>
+
+      <section class="wine dark-panel" id="wine" aria-labelledby="wine-title">
+        <div class="section-shell section-pad">
+          <div class="section-number light" aria-hidden="true">04</div>
+          <div class="wine-grid">
+            <div class="wine-copy" data-reveal>
+              <p class="eyebrow gold">The bottle that started this page</p>
+              <h2 id="wine-title"><span>Colin Simpson</span>The People’s Reserve</h2>
+              <p class="lead">
+                The label was designed for a 1.5-litre Brockenchack 2021 Zip Line Shiraz
+                from Eden Valley in the Barossa — exactly the sort of generous bottle meant to be shared with family and friends.
+              </p>
+              <p>
+                It was the intended wine and is surely a very good one, but it was not available in time for this Father’s Day weekend.
+                What is actually inside the relabelled magnum is El Goru by Ego Bodegas: a 14% Jumilla red made from Monastrell, Syrah and Petit Verdot.
+              </p>
+              <p class="wine-punchline">Different wine. Same Colin Simpson vintage.</p>
+              <p class="disclosure">This is a one-off family tribute. It is not an official Brockenchack release.</p>
+            </div>
+            <div class="bottle-gallery" data-reveal>
+              <figure><img src="assets/images/wine-front.webp" alt="The finished People’s Reserve magnum showing its black and gold front label" width="1350" height="1800" loading="lazy" decoding="async" /><figcaption>The finished Father’s Day magnum and its new front label.</figcaption></figure>
+              <figure><img src="assets/images/wine-back.webp" alt="The back of the People’s Reserve bottle showing its story label and QR code" width="1350" height="1800" loading="lazy" decoding="async" /><figcaption>Turn the bottle and the story continues through this page.</figcaption></figure>
+            </div>
+          </div>
+          <aside class="magnum-memory" data-reveal>
+            <img src="assets/images/wine-70th-magnum.webp" alt="Colin holding a personalised magnum at his 70th birthday in 2021" width="787" height="1400" loading="lazy" decoding="async" />
+            <div><span class="card-kicker">A magnum before the magnum</span><p>Five years earlier, Colin celebrated his 70th holding another personalised magnum. The People’s Reserve continues a very good family tradition.</p></div>
+          </aside>
         </div>
       </section>
 
-      <section class="memory-section section-shell reverse" id="golf" aria-labelledby="golf-title">
-        <div class="section-number" aria-hidden="true">04</div>
-        <div class="memory-copy" data-reveal>
-          <p class="eyebrow wine">Best enjoyed unhurried</p>
-          <h2 id="golf-title">Golf &amp; Mates</h2>
-          <p class="lead">
-            The fairways, the nineteenth hole and the good company that made every round
-            worth remembering — even when the scorecard wasn’t.
-          </p>
-          <p class="placeholder-note">
-            This is where the golfing photographs, tall tales and friendly disputes over
-            handicaps will live.
-          </p>
-        </div>
-        <div class="wide-photo" data-reveal>
-          <div class="photo-placeholder panorama-orientation">
-            <span>From the fairway to the nineteenth</span>
-            <small>Golfing memories to be added</small>
-          </div>
-        </div>
-      </section>
-
-      <section class="stories section-shell" id="stories" aria-labelledby="stories-title">
+      <section class="golf section-shell section-pad" id="golf" aria-labelledby="golf-title">
         <div class="section-number" aria-hidden="true">05</div>
-        <div class="stories-intro" data-reveal>
-          <p class="eyebrow wine">From the Colin Simpson archives</p>
-          <h2 id="stories-title">The Stories</h2>
-          <p>
-            Every good vintage develops with time. This collection will grow as friends,
-            family and old workmates add the stories only they can tell.
-          </p>
-        </div>
-        <div class="story-grid">
-          <article class="story-card" data-reveal>
-            <span class="story-label">Story no. 01</span>
-            <h3>The one from Repco</h3>
-            <p>A favourite work story will be uncorked here.</p>
-            <span class="story-author">Awaiting a good storyteller</span>
+        <header class="section-heading split-heading" data-reveal>
+          <div><p class="eyebrow ink">A competitive finish</p><h2 id="golf-title">The fair-weather golfer who keeps winning</h2></div>
+          <div>
+            <p class="lead">Golf is where Colin’s competitiveness, friendships and humour all meet. The messages record a longest-drive prize, an eagle, a shop-competition win, team haggle wins, trophy days and a very good comeback.</p>
+            <p>He reports the victories with the same modest preface: <em>skite time.</em></p>
+          </div>
+        </header>
+        <div class="milestone-strip" data-reveal><span>Longest drive</span><span>Eagle</span><span>Shop-comp winner</span><span>Haggle winner at 75</span></div>
+        <figure class="feature-photo golf-lead" data-reveal>
+          <img src="assets/images/golf-levin-summer-cup.webp" alt="Colin smiling and holding a silver cup inside Levin Golf Club" width="1800" height="1013" loading="lazy" decoding="async" />
+          <figcaption data-detail="levinCup">Colin with the Levin Golf Club Summer Cup, 6 February 2016.</figcaption>
+        </figure>
+        <div class="story-pair">
+          <article class="image-story" data-reveal>
+            <img src="assets/images/golf-garage-2020.webp" alt="Colin watching Mike putt across their garage floor during lockdown" width="1066" height="600" loading="lazy" decoding="async" />
+            <div><span class="card-kicker">No course, no problem</span><h3>Garage golf · 4 April 2020</h3><p>During lockdown, Colin and Mike turned the garage into a putting green. Golf balls everywhere, bare feet on the “course” and Colin keeping a close eye on the line.</p></div>
           </article>
-          <article class="story-card featured" data-reveal>
-            <span class="story-label">Story no. 02</span>
-            <h3>The family classic</h3>
-            <p>The story everyone knows — and Colin still tells best.</p>
-            <span class="story-author">Awaiting the family version</span>
-          </article>
-          <article class="story-card" data-reveal>
-            <span class="story-label">Story no. 03</span>
-            <h3>The golf-course truth</h3>
-            <p>A version of events that may improve with every retelling.</p>
-            <span class="story-author">Awaiting independent witnesses</span>
+          <article class="image-story image-story-portrait" data-reveal>
+            <img src="assets/images/golf-waikanae-trophy.webp" alt="Colin holding the Waikanae Mid Week Men Memorial Trophy and a bottle of wine" width="1125" height="1500" loading="lazy" decoding="async" />
+            <div><span class="card-kicker">Another trophy day</span><h3>Waikanae · 2022</h3><p data-detail="waikanaeTrophy">Colin with Waikanae Golf Club’s Mid Week Men Memorial Trophy, 2022.</p></div>
           </article>
         </div>
-        <p class="warning" data-reveal>
-          <span aria-hidden="true">!</span>
-          Opening may result in stories beginning with “I remember this one time at Repco…”
-        </p>
+        <blockquote class="small-quote" data-reveal><p>“Just boasting! Luv ya.”</p><cite>— Colin, 14 September 2024</cite></blockquote>
       </section>
 
-      <section class="message-section" id="message" aria-labelledby="message-title">
-        <div class="message-card" data-reveal>
-          <p class="eyebrow gold">A Father’s Day toast</p>
-          <h2 id="message-title">To Dad</h2>
-          <div class="message-body">
-            <p>Happy Father’s Day.</p>
-            <p>
-              You’ve spent a lifetime remembering people, making room for their families
-              and building them up. This page is a small beginning — our place to return
-              some of that care, and to keep the photographs and stories that make you you.
-            </p>
-            <p>
-              Here’s to 75 remarkable years, more rounds with good mates, more bottles
-              opened around a full table and, naturally, plenty more stories.
-            </p>
+      <section class="rugby colour-section" id="rugby" aria-labelledby="rugby-title">
+        <div class="section-shell rugby-grid">
+          <figure data-reveal>
+            <img src="assets/images/rugby-colin-laura.webp" alt="Colin and Laura wearing matching All Blacks shirts before a test match" width="1255" height="1600" loading="lazy" decoding="async" />
+            <figcaption data-detail="allBlacks">Colin and Laura in their All Blacks colours before heading to a test match.</figcaption>
+          </figure>
+          <div data-reveal>
+            <p class="eyebrow gold">Black, white and loud about it</p>
+            <h2 id="rugby-title">Rugby has always had a firm place in the calendar.</h2>
+            <p class="lead">All Blacks tests at the stadium, early World Cup starts, family match days and plenty of expert analysis from the armchair.</p>
+            <div class="stat-card"><strong>28th</strong><span>of 55,435</span><p>Colin’s 2010 finish in a virtual rugby competition based on correctly predicting match results — comfortably inside the top one tenth of one percent.</p></div>
           </div>
-          <p class="signoff">With all our love,<br /><span>Your family</span></p>
+        </div>
+      </section>
+
+      <section class="repco section-shell section-pad" id="repco" aria-labelledby="repco-title">
+        <div class="section-number" aria-hidden="true">06</div>
+        <header class="section-heading centered narrow" data-reveal>
+          <p class="eyebrow ink">Staff number 23 · The Elite Region · Sir Colin</p>
+          <h2 id="repco-title">From delivery boy to Hall of Fame</h2>
+          <p>Colin gave 52 years to the automotive-parts industry and the Repco family of companies. He began with after-school deliveries in 1966 and retired in 2020, having led branches, regions and commercial relationships across New Zealand.</p>
+        </header>
+        <div class="repco-feature">
+          <figure class="photo-card photo-card-portrait" data-reveal>
+            <img src="assets/images/repco-hall-board.webp" alt="Colin and Ally standing beside Repco’s Hall of Fame honours board" width="1030" height="1500" loading="lazy" decoding="async" />
+            <figcaption data-detail="hallOfFame">Colin and Ally with Repco’s Hall of Fame honours board.</figcaption>
+          </figure>
+          <div class="repco-copy" data-reveal>
+            <div class="repco-years"><span>1966</span><i aria-hidden="true"></i><span>2020</span></div>
+            <p class="lead">His service was recognised by the Repco New Zealand Hall of Fame. Yet the strongest measure of the career is how many former colleagues still call, remember the family and make room at the next table.</p>
+            <ul class="label-list" aria-label="Repco milestones"><li>1966 · First delivery</li><li>1979 · Wellington branch manager</li><li>2012 · Forty years recognised</li><li>2020 · Retirement after 52 years</li><li>2022 · Repco centenary guest</li></ul>
+            <a class="button button-dark" href="repco.html">Read the full Repco story <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="mates paper-deep" id="mates" aria-labelledby="mates-title">
+        <div class="section-shell section-pad">
+          <div class="section-number" aria-hidden="true">07</div>
+          <div class="mates-grid">
+            <div class="mates-copy" data-reveal>
+              <p class="eyebrow ink">The people around the table</p>
+              <h2 id="mates-title">Mates made for the long haul</h2>
+              <p class="lead">Repco mates, golf mates, old friends and family friends — Colin has always been good at turning a workplace, a round or a lunch into a lasting community.</p>
+              <p>Years after retirement, former colleagues were still asking after the family. At 75, he was still heading into Wellington for what he called a “pensioners’ man date” with the golf crew.</p>
+              <blockquote>“Not a bad looking crew at golf today.”<cite>— Colin, 30 December 2023</cite></blockquote>
+            </div>
+            <figure class="feature-photo" data-reveal>
+              <img src="assets/images/mates-golf-team-2023.webp" alt="Colin standing with three golf teammates after finishing runners-up" width="960" height="720" loading="lazy" decoding="async" />
+              <figcaption data-detail="golfMates">Colin, left, with his golf team after finishing runners-up on 30 December 2023.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="travels section-shell section-pad" id="travels" aria-labelledby="travels-title">
+        <div class="section-number" aria-hidden="true">08</div>
+        <header class="section-heading split-heading" data-reveal>
+          <div><p class="eyebrow ink">A lifetime of saying yes to the next journey</p><h2 id="travels-title">From Karori to the world</h2></div>
+          <div><p class="lead">Australia at 20, work across Asia and the Pacific, New Zealand road trips, North America, Alaska and Europe — always with a story brought home.</p><p>The destinations matter, but the recurring feature is the company: Ally beside him, friends met along the way, and Laura or Mike joining the journey.</p></div>
+        </header>
+        <div class="travel-grid">
+          <figure class="travel-card travel-card-wide" data-reveal>
+            <img src="assets/images/travel-queenstown-2013.webp" alt="Colin, Laura, Mike and Ally together inside the Minus 5 ice bar in Queenstown" width="1800" height="1200" loading="lazy" decoding="async" />
+            <figcaption><strong>Queenstown · 5 May 2013</strong><span>Colin, Laura, Mike and Ally keeping cool at the Minus 5° Ice Bar.</span></figcaption>
+          </figure>
+          <figure class="travel-card" data-reveal>
+            <img src="assets/images/travel-farewell-spit-2024.webp" alt="Colin and Ally at the Farewell Spit rock-arch viewpoint" width="1275" height="1700" loading="lazy" decoding="async" />
+            <figcaption><strong>Farewell Spit · May 2024</strong><span>The right company, closer to home.</span></figcaption>
+          </figure>
+          <figure class="travel-card" data-reveal>
+            <img src="assets/images/travel-stewart-island-2019.webp" alt="Colin and Mike sharing fish and chips outside the Kai Kart on Stewart Island" width="1600" height="900" loading="lazy" decoding="async" />
+            <figcaption><strong>Stewart Island · 2019</strong><span>Fish and chips with Mike at the Kai Kart.</span></figcaption>
+          </figure>
+          <figure class="travel-card" data-reveal>
+            <img src="assets/images/travel-kapiti-2016.webp" alt="A kākā perched beside Colin during a trip to Kāpiti Island" width="1700" height="1275" loading="lazy" decoding="async" />
+            <figcaption><strong>A cheeky local · 6 May 2016</strong><span>Colin makes a new friend on Kāpiti Island.</span></figcaption>
+          </figure>
+          <figure class="travel-card travel-card-wide" data-reveal>
+            <img src="assets/images/travel-viking-2025.webp" alt="Colin standing beside the Viking Gymir river-cruise ship in Europe" width="1600" height="1241" loading="lazy" decoding="async" />
+            <figcaption><strong>Europe · 2025</strong><span>Colin beside Viking Gymir during the European journey.</span></figcaption>
+          </figure>
+        </div>
+        <div class="travel-ending" data-reveal><blockquote>“This lovely lady is still following me.”</blockquote><p>Across the years and the map, Ally is the constant figure beside him — which is exactly how Colin tells the story too.</p><a class="button button-outline" href="travels.html">Follow the longer journey <span aria-hidden="true">→</span></a></div>
+      </section>
+
+      <section class="final-message" id="message" aria-labelledby="final-title">
+        <div class="final-photo" aria-hidden="true"><img src="assets/images/family-wanaka-2026.webp" alt="" width="1425" height="1900" loading="lazy" decoding="async" /></div>
+        <div class="final-copy" data-reveal>
+          <p class="eyebrow gold">The best evidence of a life well spent</p>
+          <h2 id="final-title">Happy Father’s Day, Dad.</h2>
+          <p>After 37 years of fatherhood, more than half a century in the Repco family, countless rounds and more stories than anyone can count, the best evidence is still the same: the number of people happy to pull up a chair.</p>
+          <blockquote><span>“I’m a lucky dad.”</span><strong>So are we.</strong></blockquote>
+          <p class="family-caption">Mike, Colin, Ally, Laura and Willa together at Tom’s wedding in Wānaka, 18 April 2026.</p>
         </div>
       </section>
     </main>
@@ -256,7 +424,7 @@
     <footer class="site-footer">
       <div class="footer-mark" aria-hidden="true">CS</div>
       <p><strong>Colin Simpson · The People’s Reserve</strong></p>
-      <p>Vintage 2026 · Best enjoyed with good mates. Never rushed.</p>
+      <p>Father’s Day 2026 · Best enjoyed with good mates. Never rushed.</p>
       <a href="#top">Back to the top <span aria-hidden="true">↑</span></a>
     </footer>
   </body>

@@ -22,6 +22,7 @@
     <meta name="twitter:description" content="A Father’s Day tribute from Laura and Mike to a dad they are enormously proud of." />
     <meta name="twitter:image" content="https://mikemaxwelledison.github.io/colin-simpson-peoples-reserve/og.png" />
     <title>Colin Simpson — The People’s Reserve</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -86,8 +87,8 @@
             />
           </div>
           <figcaption><strong>Two Sir Colins</strong><span>Te Kūiti</span></figcaption>
-          <div class="vintage-seal" aria-label="Celebrating Colin at 75">
-            <span>Celebrating</span><strong>75</strong><span>remarkable years</span>
+          <div class="vintage-seal" aria-label="Celebrating our Dad — not a bad bloke">
+            <span>Celebrating our</span><strong>Dad</strong><span>Not a bad bloke</span>
           </div>
         </figure>
       </section>
@@ -125,8 +126,8 @@
           </header>
 
           <div class="video-grid">
-            <article class="video-card" data-reveal>
-              <div class="video-frame landscape-video">
+            <article class="video-card video-card-portrait" data-reveal>
+              <div class="video-frame portrait-video-frame">
                 <video controls playsinline preload="metadata" poster="assets/images/message-willa-short.webp" aria-label="Willa’s short Father’s Day message for Poppa">
                   <source src="assets/videos/willa-short.mp4" type="video/mp4" />
                   Your browser cannot play this video.
@@ -136,7 +137,31 @@
                 <span class="card-kicker">Willa · For Poppa</span>
                 <h3>The best Poppa she has ever met</h3>
                 <p>Nice, kind, a little bit cheeky — and very good at hugs and stories.</p>
-                <a class="text-link" href="willa.html">Watch Willa’s full message <span aria-hidden="true">→</span></a>
+                <a class="text-link" id="willa-story-link" href="willa.html" data-story-link>Watch Willa’s full message <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+
+            <article class="video-card video-card-coming" data-reveal>
+              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Laura">
+                <span class="phone-outline" aria-hidden="true"><i>LS</i></span>
+                <strong>Laura’s message</strong><small>Coming soon</small>
+              </div>
+              <div class="video-copy">
+                <span class="card-kicker">Laura · For Dad</span>
+                <h3>A Father’s Day message from Laura</h3>
+                <p>Laura’s portrait iPhone video will sit here in the same format as Willa’s.</p>
+              </div>
+            </article>
+
+            <article class="video-card video-card-coming" data-reveal>
+              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Mike">
+                <span class="phone-outline" aria-hidden="true"><i>MS</i></span>
+                <strong>Mike’s message</strong><small>Coming soon</small>
+              </div>
+              <div class="video-copy">
+                <span class="card-kicker">Mike · For Dad</span>
+                <h3>A Father’s Day message from Mike</h3>
+                <p>Mike’s portrait Samsung video will be added here as soon as it is ready.</p>
               </div>
             </article>
 
@@ -149,32 +174,8 @@
               </div>
               <div class="video-copy">
                 <span class="card-kicker">Ally &amp; Susie · For Colin</span>
-                <h3>A message from two people who know him well</h3>
-                <p>A short Father’s Day contribution, delivered with love.</p>
-              </div>
-            </article>
-
-            <article class="video-card video-card-coming" data-reveal>
-              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Laura">
-                <span class="phone-outline" aria-hidden="true"><i>LS</i></span>
-                <strong>Laura’s message</strong><small>Coming soon</small>
-              </div>
-              <div class="video-copy">
-                <span class="card-kicker">Laura · For Dad</span>
-                <h3>A Father’s Day message from Laura</h3>
-                <p>This portrait video will be added here as soon as it is ready.</p>
-              </div>
-            </article>
-
-            <article class="video-card video-card-coming" data-reveal>
-              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Mike">
-                <span class="phone-outline" aria-hidden="true"><i>MS</i></span>
-                <strong>Mike’s message</strong><small>Coming soon</small>
-              </div>
-              <div class="video-copy">
-                <span class="card-kicker">Mike · For Dad</span>
-                <h3>A Father’s Day message from Mike</h3>
-                <p>This portrait video will be added here as soon as it is ready.</p>
+                <h3>From his wife and sister-in-law</h3>
+                <p>A short Father’s Day contribution from Ally — Mum to Laura and Mike, and Colin’s wife — with Susie.</p>
               </div>
             </article>
           </div>
@@ -195,8 +196,6 @@
           </figure>
         </div>
       </section>
-      <div class="continue-point" id="after-messages" aria-hidden="true"></div>
-
       <blockquote class="signature-quote" data-reveal>
         <span class="quote-mark" aria-hidden="true">“</span>
         <p>A great father gives his family roots, confidence and a lifetime of stories.</p>
@@ -213,9 +212,8 @@
             </p>
             <p>
               Laura and Mike grew up with a dad who made things happen: sandpits, playhouses,
-              swings, decks and gardens — even a rabbit hutch grand enough to be called a
-              two-storey mansion. Dad gave us his time, practical help and belief in us. Then
-              Willa arrived, and we had the joy of watching Dad become Poppa.
+              swings, decks and gardens. Dad gave us his time, practical help and belief in us.
+              Then Willa arrived, and we had the joy of watching Dad become Poppa.
             </p>
           </div>
         </header>
@@ -239,13 +237,35 @@
           </figure>
         </div>
 
+        <aside class="dad-messages" data-reveal aria-labelledby="dad-messages-title">
+          <div class="dad-messages-heading">
+            <p class="eyebrow ink">Messages we have kept</p>
+            <h3 id="dad-messages-title">Dad, in his own words</h3>
+            <p>The little messages matter too. They kept us in the loop, lifted us up and quietly reminded us that Dad was always there.</p>
+          </div>
+          <div class="dad-message-list">
+            <blockquote>
+              <p>“Remember you’re a bloody good bloke and you do bloody good things. We are just a phone call away.”</p>
+              <cite>30 August 2020 · Dad checking in with Mike</cite>
+            </blockquote>
+            <blockquote>
+              <p>“I’m a lucky dad.”</p>
+              <cite>2 September 2023</cite>
+            </blockquote>
+            <blockquote>
+              <p>“No need to respond, just thinking of you.”</p>
+              <cite>14 March 2024</cite>
+            </blockquote>
+          </div>
+        </aside>
+
         <aside class="poppa-callout" data-reveal>
           <figure><img src="assets/images/willa-walking-2022.webp" alt="Colin and Willa walking together outdoors in 2022" width="900" height="1200" loading="lazy" decoding="async" /></figure>
           <div>
             <p class="eyebrow ink">The Poppa years</p>
             <h3>Little School, train outings and telling the stories properly.</h3>
             <p>Poppa’s job description has grown to include garden competitions, monkey bars, big bad wolves, the three little pigs and one very important audience.</p>
-            <a class="button button-outline" href="willa.html">See Willa’s page <span aria-hidden="true">→</span></a>
+            <a class="button button-outline" id="willa-family-link" href="willa.html" data-story-link>See Willa’s page <span aria-hidden="true">→</span></a>
           </div>
         </aside>
 
@@ -301,13 +321,25 @@
       <section class="golf section-shell section-pad" id="golf" aria-labelledby="golf-title">
         <div class="section-number" aria-hidden="true">05</div>
         <header class="section-heading split-heading" data-reveal>
-          <div><p class="eyebrow ink">A competitive finish</p><h2 id="golf-title">The fair-weather golfer who keeps winning</h2></div>
+          <div><p class="eyebrow ink">A well-recorded finish</p><h2 id="golf-title">The fair-weather golfer who keeps winning</h2></div>
           <div>
-            <p class="lead">Golf is one of the things that makes Dad unmistakably Dad: competitive, social, quietly determined and always ready to report a good result. The messages record a longest-drive prize, an eagle, a shop-competition win, team haggle wins, trophy days and a very good comeback.</p>
-            <p>He reports the victories with the same modest preface: <em>skite time.</em></p>
+            <p class="lead">Golf is one of the things that makes Dad unmistakably Dad: quietly competitive (mainly with himself), social, determined and very good at keeping track of a result worth reporting.</p>
+            <p>He reports the victories with the same modest preface: <em>skite time.</em> We have kept the messages — proof that being included in Dad’s running commentary is part of the fun.</p>
           </div>
         </header>
-        <div class="milestone-strip" data-reveal><span>Longest drive</span><span>Eagle</span><span>Shop-comp winner</span><span>Haggle winner at 75</span></div>
+        <section class="golf-message-ledger" data-reveal aria-labelledby="golf-ledger-title">
+          <div class="ledger-heading">
+            <span class="card-kicker">Saved from Dad’s messages</span>
+            <h3 id="golf-ledger-title">A few entries from the unofficial scorebook</h3>
+          </div>
+          <div class="ledger-grid">
+            <article><time datetime="2022-06-21">21 Jun 2022</time><h4>Longest drive</h4><p>Dad asked Mike to guess who had won the longest-drive prize at the “old farts mid week golf day”.</p></article>
+            <article><time datetime="2023-09-19">19 Sep 2023</time><h4>An eagle</h4><p>“Guess whose golf is getting a little better and in fact guess who got an Eagle on Saturday 😉?”</p></article>
+            <article><time datetime="2024-09-14">14 Sep 2024</time><h4>Shop-comp winner</h4><p>After nine holes with Mike, Dad finished two under his handicap and won the shop competition. “Just boasting! Luv ya.”</p></article>
+            <article><time datetime="2025-05-25">25 May 2025</time><h4>Back for a full 18</h4><p>After working his way back from shoulder trouble: “Bloody great to just be out there again chasing the little white ball!”</p></article>
+            <article><time datetime="2026-06-09">9 Jun 2026</time><h4>Haggle winner at 75</h4><p>Dad won the haggle in bitter cold and gale-force winds — a result well worth making sure the family heard about.</p></article>
+          </div>
+        </section>
         <figure class="feature-photo golf-lead" data-reveal>
           <img src="assets/images/golf-levin-summer-cup.webp" alt="Colin smiling and holding a silver cup inside Levin Golf Club" width="1800" height="1013" loading="lazy" decoding="async" />
           <figcaption data-detail="levinCup">Colin with the Levin Golf Club Summer Cup, 6 February 2016.</figcaption>
@@ -323,6 +355,14 @@
           </article>
         </div>
         <blockquote class="small-quote" data-reveal><p>“Just boasting! Luv ya.”</p><cite>— Colin, 14 September 2024</cite></blockquote>
+        <aside class="calculator-invite" data-reveal>
+          <div>
+            <p class="eyebrow gold">The family statistics department investigates</p>
+            <h3>How many times has Dad hit the little white ball?</h3>
+            <p>Build the estimate one golfing era at a time, keep the result on this device, then download Colin’s suitably official certificate of golf addiction.</p>
+          </div>
+          <a class="button button-gold" id="golf-calculator-link" href="golf-calculator.html" data-story-link>Open the golf calculator <span aria-hidden="true">→</span></a>
+        </aside>
       </section>
 
       <section class="rugby colour-section" id="rugby" aria-labelledby="rugby-title">
@@ -334,7 +374,8 @@
           <div data-reveal>
             <p class="eyebrow gold">Black, white and loud about it</p>
             <h2 id="rugby-title">Rugby has always had a firm place in the calendar.</h2>
-            <p class="lead">All Blacks tests at the stadium, early World Cup starts, family match days and plenty of expert analysis from the armchair.</p>
+            <p class="lead">Whether it is a test at the stadium or the All Blacks on the “Tele”, Dad gets properly involved. When the boys are doing well, everyone in the house knows it — the clapping is enthusiastic and very loud.</p>
+            <p class="rugby-note">In July 2026, Dad messaged to say Laura was taking him to the stadium to see the All Blacks play Italy — a very good father-and-daughter match day.</p>
             <div class="stat-card"><strong>28th</strong><span>of 55,435</span><p>Colin’s 2010 finish in a virtual rugby competition based on correctly predicting match results — comfortably inside the top one tenth of one percent.</p></div>
           </div>
         </div>
@@ -355,13 +396,12 @@
           <div class="repco-copy" data-reveal>
             <div class="repco-years"><span>1966</span><i aria-hidden="true"></i><span>2020</span></div>
             <p class="lead">His service was recognised by the Repco New Zealand Hall of Fame. Yet the strongest measure of the career is how many former colleagues still call, remember the family and make room at the next table.</p>
+            <blockquote class="message-inline"><p>“You touched a number of Repco lives buster.”</p><cite>Dad to Mike · 13 October 2024</cite></blockquote>
             <ul class="label-list" aria-label="Repco milestones"><li>1966 · First delivery</li><li>1979 · Wellington branch manager</li><li>2012 · Forty years recognised</li><li>2020 · Retirement after 52 years</li><li>2022 · Repco centenary guest</li></ul>
-            <a class="button button-dark" href="repco.html">Read the full Repco story <span aria-hidden="true">→</span></a>
+            <a class="button button-dark" id="repco-story-link" href="repco.html" data-story-link>Read the full Repco story <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </section>
-      <div class="continue-point" id="after-repco" aria-hidden="true"></div>
-
       <section class="mates paper-deep" id="mates" aria-labelledby="mates-title">
         <div class="section-shell section-pad">
           <div class="section-number" aria-hidden="true">07</div>
@@ -409,9 +449,8 @@
             <figcaption><strong>Europe · 2025</strong><span>Colin beside Viking Gymir during the European journey.</span></figcaption>
           </figure>
         </div>
-        <div class="travel-ending" data-reveal><blockquote>“This lovely lady is still following me.”</blockquote><p>Across the years and the map, Ally is the constant figure beside him — which is exactly how Colin tells the story too.</p><a class="button button-outline" href="travels.html">Follow the longer journey <span aria-hidden="true">→</span></a></div>
+        <div class="travel-ending" data-reveal><blockquote>“This lovely lady is still following me.”</blockquote><p>Across the years and the map, Ally is the constant figure beside him — which is exactly how Colin tells the story too.</p><a class="button button-outline" id="travels-story-link" href="travels.html" data-story-link>Follow the longer journey <span aria-hidden="true">→</span></a></div>
       </section>
-      <div class="continue-point" id="after-travels" aria-hidden="true"></div>
 
       <section class="final-message" id="message" aria-labelledby="final-title">
         <div class="final-photo"><img src="assets/images/family-wanaka-2026.webp" alt="Mike, Colin, Ally, Laura and Willa together at Tom’s wedding in Wānaka" width="1425" height="1900" loading="lazy" decoding="async" /></div>

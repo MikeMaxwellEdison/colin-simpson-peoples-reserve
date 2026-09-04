@@ -17,5 +17,11 @@ The editable details cover the early family portrait, Waikanae trophy, All Black
 Repco Hall of Fame, Repco briefcase-phone photo, golf teammates, German city,
 Martinborough venue, 1956 school photo, 1961 hockey photo and young tuxedo photo.
 
-Laura’s and Mike’s portrait video positions are already reserved on the main page. Their
-video files can be added later without changing the public address.
+Laura’s and Mike’s portrait video positions are already reserved on the main page. Willa’s
+video shows the finished portrait treatment. Their video files can be added later without
+changing the public address.
+
+The little-white-ball calculator is in `golf-calculator.html`. It saves Colin’s entries and
+latest result in the browser on the device being used, and makes his personalised PDF
+certificate without sending the figures anywhere. The main-page story links also remember
+where they were opened so the return links can place the reader back at the same spot.

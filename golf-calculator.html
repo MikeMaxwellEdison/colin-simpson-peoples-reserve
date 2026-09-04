@@ -75,7 +75,7 @@
           <p class="form-status" id="form-status" role="alert" aria-live="polite"></p>
 
           <div class="calculator-actions">
-            <p>Your entries are kept privately in this browser on this device.</p>
+            <p>Your entries are kept privately on this device. After calculating, use <strong>Share result</strong> to carry the saved estimate to another phone, tablet or computer.</p>
             <button class="button button-gold calculate-button" type="submit">Calculate the little white balls <span aria-hidden="true">→</span></button>
           </div>
         </form>
@@ -91,7 +91,16 @@
             <span><strong id="result-eras">0</strong> golfing eras</span>
           </div>
           <p class="result-note">A carefully reasoned estimate, give or take a few mulligans, practice swings and stories that improved with age.</p>
-          <button class="button button-gold" type="button" id="download-certificate">Download Colin’s certificate of golf addiction <span aria-hidden="true">↓</span></button>
+          <div class="result-actions">
+            <button class="button button-gold" type="button" id="download-certificate">Download Colin’s certificate of golf addiction <span aria-hidden="true">↓</span></button>
+            <button class="button button-result-share" type="button" id="share-result">Share result to another device <span aria-hidden="true">↗</span></button>
+          </div>
+          <p class="result-share-note">The shared link contains only the golfing eras and estimate. Opening it saves the result in that device’s browser.</p>
+          <div class="share-link-fallback" id="share-link-fallback" hidden>
+            <label for="share-link">Result link</label>
+            <div><input id="share-link" type="text" readonly /><button class="button button-result-share" id="copy-share-link" type="button">Copy link</button></div>
+          </div>
+          <p class="share-status" id="share-status" aria-live="polite"></p>
           <small id="saved-date"></small>
         </section>
       </section>

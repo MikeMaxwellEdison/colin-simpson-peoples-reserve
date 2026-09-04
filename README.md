@@ -22,6 +22,8 @@ video shows the finished portrait treatment. Their video files can be added late
 changing the public address.
 
 The little-white-ball calculator is in `golf-calculator.html`. It saves Colin’s entries and
-latest result in the browser on the device being used, and makes his personalised PDF
-certificate without sending the figures anywhere. The main-page story links also remember
-where they were opened so the return links can place the reader back at the same spot.
+latest result in the browser on the device being used, makes his personalised PDF certificate,
+and can create a private result link for carrying the estimate to a second device. The result
+link stores the calculator figures in its address rather than publishing them to the tribute.
+The main-page story links also remember where they were opened so the return links can place
+the reader back at the same spot.

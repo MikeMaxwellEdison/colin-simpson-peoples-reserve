@@ -2,8 +2,19 @@
   "use strict";
 
   const STORAGE_KEY = "colin-golf-calculator-v1";
+  const SHARE_HASH_PREFIX = "#golf-result=";
   const FREQUENCY_MULTIPLIERS = { week: 52, month: 12, year: 1 };
   const CURRENT_YEAR = 2026;
+  const PDF_PAGE_WIDTH = 842;
+
+  const TIMES_ROMAN_WIDTHS = {
+    " ": 250, ",": 250, ".": 250, "-": 333, ":": 278, ";": 278,
+    "'": 180, "(": 333, ")": 333, "/": 278,
+    a: 444, b: 500, c: 444, d: 500, e: 444, f: 333, g: 500,
+    h: 500, i: 278, j: 278, k: 500, l: 278, m: 778, n: 500,
+    o: 500, p: 500, q: 500, r: 333, s: 389, t: 278, u: 500,
+    v: 500, w: 722, x: 500, y: 500, z: 444,
+  };
 
   const roundWhole = (value) => Math.round(value);
   const formatNumber = (value) => new Intl.NumberFormat("en-NZ").format(roundWhole(value));
@@ -88,6 +99,20 @@
     return `${colour} rg BT /${font} ${size} Tf ${x.toFixed(1)} ${y} Td (${safeText}) Tj ET`;
   }
 
+  function timesRomanTextWidth(text, fontSize) {
+    const units = Array.from(String(text)).reduce((total, character) => {
+      if (/\d/.test(character)) return total + 500;
+      return total + (TIMES_ROMAN_WIDTHS[character] || 500);
+    }, 0);
+    return units * fontSize / 1000;
+  }
+
+  function pdfTimesRomanCentered(text, y, size, colour) {
+    const safeText = pdfEscape(text);
+    const x = Math.max(42, (PDF_PAGE_WIDTH - timesRomanTextWidth(text, size)) / 2);
+    return `${colour} rg BT /F1 ${size} Tf ${x.toFixed(2)} ${y} Td (${safeText}) Tj ET`;
+  }
+
   function buildCertificatePdf(result) {
     if (!result || !Number.isFinite(Number(result.totalHits))) {
       throw new Error("A completed calculation is required to make the certificate.");
@@ -113,7 +138,7 @@
       pdfText("CERTIFICATE OF GOLF ADDICTION", 443, "F2", 30, ivory, 0.55),
       pdfText("This certifies that", 400, "F3", 15, ivory, 0.48),
       pdfText("COLIN SIMPSON", 354, "F2", 37, brightGold, 0.58),
-      pdfText("has, after careful family calculation, hit the little white ball an estimated", 317, "F1", 13, ivory, 0.48),
+      pdfTimesRomanCentered("has, after careful family calculation, hit the little white ball an estimated", 317, 13, ivory),
       pdfText(hitLabel, 245, "F2", hitLabel.length > 9 ? 50 : 59, brightGold, 0.58),
       pdfText("TIMES", 211, "F2", 15, ivory, 0.62),
       `${gold} RG 0.8 w 205 184 m 637 184 l S`,
@@ -162,6 +187,52 @@
     window.setTimeout(() => URL.revokeObjectURL(url), 2000);
   }
 
+  function encodeSharedResult(result) {
+    if (!result || !Array.isArray(result.segments) || !result.segments.length) {
+      throw new Error("Calculate a result before sharing it.");
+    }
+    const payload = {
+      v: 1,
+      d: result.calculatedAt,
+      s: result.segments.map((segment) => [
+        Number(segment.from),
+        Number(segment.to),
+        Number(segment.games),
+        String(segment.frequency),
+        Number(segment.holes),
+        Number(segment.score),
+      ]),
+    };
+    const bytes = new TextEncoder().encode(JSON.stringify(payload));
+    let binary = "";
+    bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+    return window.btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+
+  function decodeSharedResult(hash) {
+    if (!String(hash || "").startsWith(SHARE_HASH_PREFIX)) return null;
+    const encoded = String(hash).slice(SHARE_HASH_PREFIX.length).replace(/-/g, "+").replace(/_/g, "/");
+    const padded = encoded + "=".repeat((4 - encoded.length % 4) % 4);
+    const binary = window.atob(padded);
+    const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+    const payload = JSON.parse(new TextDecoder().decode(bytes));
+    if (payload?.v !== 1 || !Array.isArray(payload.s) || !payload.s.length || payload.s.length > 50) {
+      throw new Error("That shared golf result is not valid.");
+    }
+    const segments = payload.s.map((segment) => ({
+      from: segment[0],
+      to: segment[1],
+      games: segment[2],
+      frequency: segment[3],
+      holes: segment[4],
+      score: segment[5],
+    }));
+    const result = calculateSegments(segments);
+    const sharedDate = new Date(payload.d);
+    if (!Number.isNaN(sharedDate.getTime())) result.calculatedAt = sharedDate.toISOString();
+    return result;
+  }
+
   function initialiseCalculator() {
     const form = document.getElementById("golf-form");
     if (!form) return;
@@ -176,6 +247,11 @@
     const resultEras = document.getElementById("result-eras");
     const savedDate = document.getElementById("saved-date");
     const certificateButton = document.getElementById("download-certificate");
+    const shareButton = document.getElementById("share-result");
+    const shareStatus = document.getElementById("share-status");
+    const shareFallback = document.getElementById("share-link-fallback");
+    const shareLink = document.getElementById("share-link");
+    const copyShareLink = document.getElementById("copy-share-link");
     const dialog = document.getElementById("recalculate-dialog");
     const cancelButton = document.getElementById("cancel-recalculate");
     const downloadThenButton = document.getElementById("download-then-recalculate");
@@ -210,6 +286,24 @@
       } catch (_error) {
         // The calculator still works if private browsing blocks local storage.
       }
+    };
+
+    const buildShareUrl = (result) => {
+      const url = new URL(window.location.href);
+      url.hash = `golf-result=${encodeSharedResult(result)}`;
+      return url.toString();
+    };
+
+    const copyResultLink = async (url) => {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard access is unavailable.");
+      await navigator.clipboard.writeText(url);
+    };
+
+    const revealShareFallback = (url) => {
+      shareLink.value = url;
+      shareFallback.hidden = false;
+      shareLink.focus();
+      shareLink.select();
     };
 
     const updateSegmentLabels = () => {
@@ -264,6 +358,7 @@
         pendingSegments = null;
         currentResult = result;
         saveState(result);
+        window.history.replaceState(null, "", buildShareUrl(result));
         showResult(result, true);
       } catch (error) {
         pendingSegments = null;
@@ -273,9 +368,24 @@
     };
 
     const saved = loadState();
-    const initialSegments = Array.isArray(saved.segments) && saved.segments.length ? saved.segments : [emptySegment()];
+    let sharedResult = null;
+    if (window.location.hash.startsWith(SHARE_HASH_PREFIX)) {
+      try {
+        sharedResult = decodeSharedResult(window.location.hash);
+      } catch (_error) {
+        statusElement.textContent = "That shared result could not be read. You can still make a new calculation below.";
+      }
+    }
+    const initialSegments = sharedResult?.segments || (Array.isArray(saved.segments) && saved.segments.length ? saved.segments : [emptySegment()]);
     initialSegments.forEach(addSegment);
-    if (saved.result) showResult(saved.result);
+    if (sharedResult) {
+      currentResult = sharedResult;
+      saveState(sharedResult);
+      showResult(sharedResult);
+      shareStatus.textContent = "Shared result loaded and saved on this device.";
+    } else if (saved.result) {
+      showResult(saved.result);
+    }
 
     segmentsElement.addEventListener("click", (event) => {
       const remove = event.target.closest("[data-remove-segment]");
@@ -330,13 +440,48 @@
       if (currentResult) downloadCertificate(currentResult);
     });
 
+    shareButton.addEventListener("click", async () => {
+      if (!currentResult) return;
+      const url = buildShareUrl(currentResult);
+      shareStatus.textContent = "";
+      shareFallback.hidden = true;
+      try {
+        if (typeof navigator.share === "function") {
+          await navigator.share({
+            title: "Colin Simpson’s little white ball estimate",
+            text: `Colin’s estimated lifetime total: ${formatNumber(currentResult.totalHits)} hits.`,
+            url,
+          });
+          shareStatus.textContent = "Result link ready for the other device.";
+        } else {
+          await copyResultLink(url);
+          shareStatus.textContent = "Result link copied. Send it to the other device and open it there.";
+        }
+      } catch (error) {
+        if (error?.name === "AbortError") return;
+        revealShareFallback(url);
+        shareStatus.textContent = "Copy this private result link and open it on the other device.";
+      }
+    });
+
+    copyShareLink.addEventListener("click", async () => {
+      try {
+        await copyResultLink(shareLink.value);
+        shareStatus.textContent = "Result link copied. Open it on the other device.";
+      } catch (_error) {
+        shareLink.focus();
+        shareLink.select();
+        shareStatus.textContent = "The link is selected. Use your browser’s Copy command, then send it to the other device.";
+      }
+    });
+
     dialog.addEventListener("cancel", () => {
       pendingSegments = null;
     });
   }
 
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = { calculateSegments, buildCertificatePdf };
+    module.exports = { calculateSegments, buildCertificatePdf, timesRomanTextWidth };
   }
 
   if (typeof document !== "undefined") {

@@ -1011,6 +1011,15 @@ video {
   grid-column: span 12;
 }
 
+.family-gallery .photo-card-half {
+  grid-column: span 6;
+}
+
+.family-gallery .photo-card-wedding {
+  grid-column: span 12;
+  grid-row: auto;
+}
+
 .photo-card img {
   aspect-ratio: 4 / 3;
   height: auto;
@@ -1021,6 +1030,12 @@ video {
 .photo-card-tall img {
   aspect-ratio: 4 / 5;
   height: calc(100% - 104px);
+}
+
+.photo-card-wedding img {
+  aspect-ratio: 16 / 9;
+  background: #d8cfbf;
+  object-fit: contain;
 }
 
 .photo-card-portrait img {
@@ -1245,6 +1260,159 @@ video {
 .disclosure {
   color: rgba(243, 238, 226, 0.35);
   font-size: 9px;
+}
+
+.wine-detail-link {
+  margin-top: 16px;
+}
+
+.wine-detail-layout {
+  align-items: center;
+  display: grid;
+  gap: clamp(45px, 7vw, 90px);
+  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+  margin-top: 68px;
+}
+
+.wine-detail-bottles {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(185, 147, 73, 0.18), transparent 47%),
+    var(--black);
+  border: 1px solid rgba(185, 147, 73, 0.48);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: clamp(20px, 3vw, 38px);
+}
+
+.wine-detail-bottles figure {
+  margin: 0;
+}
+
+.wine-detail-bottles img {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  object-fit: cover;
+  width: 100%;
+}
+
+.wine-detail-bottles figcaption {
+  color: rgba(243, 238, 226, 0.58);
+  font-family: var(--serif);
+  font-size: 13px;
+  line-height: 1.35;
+  padding: 12px 4px 0;
+}
+
+.wine-detail-copy h2 {
+  font-family: var(--serif);
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 0.98;
+  margin: 0 0 25px;
+}
+
+.wine-detail-copy .lead {
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.2vw, 27px);
+  line-height: 1.42;
+}
+
+.wine-facts {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 34px 0;
+}
+
+.wine-facts div {
+  padding: 18px 12px;
+}
+
+.wine-facts div:nth-child(even) {
+  border-left: 1px solid var(--line);
+}
+
+.wine-facts div:nth-child(n + 3) {
+  border-top: 1px solid var(--line);
+}
+
+.wine-facts dt {
+  color: #806429;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.19em;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+
+.wine-facts dd {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.wine-source-note {
+  color: var(--ink-soft);
+  font-size: 10px;
+  margin: 16px 0 0;
+}
+
+.wine-notes-grid {
+  background: var(--line);
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 78px;
+}
+
+.wine-notes-grid article {
+  background: var(--paper);
+  min-height: 280px;
+  padding: clamp(28px, 4vw, 45px);
+}
+
+.wine-notes-grid article > span {
+  color: var(--gold);
+  display: block;
+  font-family: var(--serif);
+  font-size: 30px;
+  margin-bottom: 28px;
+}
+
+.wine-notes-grid h3 {
+  font-family: var(--serif);
+  font-size: 29px;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+.wine-notes-grid p {
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.wine-making-note {
+  background: var(--black);
+  border: 1px solid rgba(185, 147, 73, 0.34);
+  color: var(--ivory);
+  margin: 48px auto 0;
+  max-width: 920px;
+  padding: clamp(34px, 6vw, 64px);
+  text-align: center;
+}
+
+.wine-making-note > p:last-child {
+  font-family: var(--serif);
+  font-size: clamp(19px, 2.5vw, 28px);
+  line-height: 1.5;
+  margin: 0;
 }
 
 .bottle-gallery {
@@ -2201,6 +2369,83 @@ video {
   max-width: 620px;
 }
 
+.result-actions {
+  align-items: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.button-result-share {
+  background: transparent;
+  border: 1px solid rgba(211, 179, 102, 0.65);
+  color: var(--ivory);
+}
+
+.button-result-share:hover,
+.button-result-share:focus-visible {
+  background: rgba(211, 179, 102, 0.12);
+  border-color: var(--gold-bright);
+}
+
+.result-share-note {
+  color: rgba(243, 238, 226, 0.48);
+  font-size: 9px;
+  line-height: 1.6;
+  margin: 18px auto 0;
+  max-width: 570px;
+}
+
+.share-link-fallback {
+  margin: 22px auto 0;
+  max-width: 680px;
+  text-align: left;
+}
+
+.share-link-fallback[hidden] {
+  display: none;
+}
+
+.share-link-fallback label {
+  color: var(--gold-bright);
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.share-link-fallback > div {
+  display: flex;
+  gap: 8px;
+}
+
+.share-link-fallback input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(211, 179, 102, 0.36);
+  color: var(--ivory);
+  flex: 1 1 auto;
+  font-family: var(--sans);
+  font-size: 11px;
+  min-width: 0;
+  padding: 12px 14px;
+}
+
+.share-link-fallback .button {
+  flex: 0 0 auto;
+  min-height: 43px;
+  padding-block: 10px;
+}
+
+.share-status {
+  color: var(--gold-bright);
+  font-family: var(--serif);
+  font-size: 15px;
+  margin: 14px 0 0;
+  min-height: 1.4em;
+}
+
 .calculator-result small {
   color: rgba(243, 238, 226, 0.34);
   display: block;
@@ -2489,6 +2734,7 @@ video {
   .opening,
   .split-heading,
   .wine-grid,
+  .wine-detail-layout,
   .rugby-grid,
   .repco-feature,
   .mates-grid,
@@ -2542,6 +2788,14 @@ video {
     grid-row: auto;
   }
 
+  .family-gallery .photo-card-half {
+    grid-column: auto;
+  }
+
+  .family-gallery .photo-card-wedding {
+    grid-column: 1 / -1;
+  }
+
   .photo-card-tall img {
     aspect-ratio: 4 / 3;
     height: auto;
@@ -2558,6 +2812,24 @@ video {
 
   .story-pair {
     grid-template-columns: 1fr;
+  }
+
+  .wine-detail-layout {
+    margin-top: 52px;
+  }
+
+  .wine-detail-bottles {
+    margin-inline: auto;
+    max-width: 660px;
+    width: 100%;
+  }
+
+  .wine-notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wine-notes-grid article {
+    min-height: auto;
   }
 
   .travel-card,
@@ -2862,6 +3134,27 @@ video {
 
   .calculator-result .button {
     width: 100%;
+  }
+
+  .result-actions,
+  .share-link-fallback > div {
+    flex-direction: column;
+  }
+
+  .share-link-fallback .button {
+    width: 100%;
+  }
+
+  .wine-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .wine-facts div:nth-child(even) {
+    border-left: 0;
+  }
+
+  .wine-facts div + div {
+    border-top: 1px solid var(--line);
   }
 
   .dialog-actions {

@@ -23,7 +23,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 90px;
 }
 
@@ -52,6 +51,10 @@ img,
 video {
   display: block;
   max-width: 100%;
+}
+
+img {
+  height: auto;
 }
 
 figure,
@@ -452,6 +455,15 @@ video {
   max-width: 600px;
 }
 
+.hero-dedication {
+  color: var(--gold-bright);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
 .button {
   align-items: center;
   border: 1px solid transparent;
@@ -645,6 +657,20 @@ video {
   color: var(--ink-soft);
   font-size: 14px;
   max-width: 480px;
+}
+
+.opening-signoff {
+  color: #765a29 !important;
+  font-family: var(--script) !important;
+  font-size: clamp(34px, 4vw, 46px) !important;
+  line-height: 1 !important;
+  margin-top: 28px !important;
+}
+
+.continue-point {
+  height: 0;
+  position: relative;
+  scroll-margin-top: 78px;
 }
 
 .opening-copy p:first-child::first-letter {
@@ -2072,6 +2098,11 @@ video {
     font-size: 19px;
   }
 
+  .hero-dedication {
+    font-size: 7px;
+    line-height: 1.6;
+  }
+
   .vintage-seal {
     bottom: -30px;
     height: 105px;
@@ -2180,7 +2211,26 @@ video {
   }
 
   .image-story-portrait {
-    grid-template-columns: 0.7fr 1fr;
+    grid-template-columns: 1fr;
+  }
+
+  .image-story-portrait img {
+    aspect-ratio: 3 / 4;
+    height: auto;
+    max-height: 560px;
+    object-fit: contain;
+  }
+
+  .photo-card img,
+  .photo-card-tall img,
+  .photo-card-portrait img,
+  .archive-grid .photo-card img,
+  .archive-grid .photo-card-portrait img,
+  .travel-card img,
+  .chapter-gallery img {
+    aspect-ratio: auto;
+    height: auto;
+    object-fit: contain;
   }
 
   .stat-card strong {

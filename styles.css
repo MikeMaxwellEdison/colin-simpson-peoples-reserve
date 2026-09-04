@@ -1124,13 +1124,47 @@ video {
   border-top: 1px solid rgba(185, 147, 73, 0.3);
 }
 
-.dad-message-list blockquote {
+.dad-message-list > blockquote {
   border-bottom: 1px solid rgba(185, 147, 73, 0.3);
   padding: 20px 0;
 }
 
-.dad-message-list blockquote:first-child {
+.dad-message-list > blockquote:first-child {
   padding-top: 0;
+}
+
+.dad-message-pair {
+  border-bottom: 1px solid rgba(185, 147, 73, 0.3);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dad-message-pair blockquote {
+  padding: 24px 24px 24px 0;
+}
+
+.dad-message-pair blockquote + blockquote {
+  border-left: 1px solid rgba(185, 147, 73, 0.3);
+  padding-left: 24px;
+  padding-right: 0;
+}
+
+.dad-message-label {
+  color: rgba(243, 238, 226, 0.54);
+  display: block;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.dad-message-list .dad-message-featured p {
+  font-size: clamp(21px, 2.5vw, 30px);
+}
+
+.dad-message-milestone p {
+  color: var(--gold-bright);
 }
 
 .dad-message-list p {
@@ -1144,7 +1178,7 @@ video {
 .message-inline cite {
   color: var(--gold-bright);
   display: block;
-  font-size: 7px;
+  font-size: 9px;
   font-style: normal;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -3051,6 +3085,20 @@ video {
 
   .dad-messages {
     padding: 28px 22px;
+  }
+
+  .dad-message-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .dad-message-pair blockquote {
+    padding: 22px 0;
+  }
+
+  .dad-message-pair blockquote + blockquote {
+    border-left: 0;
+    border-top: 1px solid rgba(185, 147, 73, 0.3);
+    padding-left: 0;
   }
 
   .ledger-heading,

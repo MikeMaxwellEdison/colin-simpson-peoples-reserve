@@ -9,11 +9,34 @@
 
   const TIMES_ROMAN_WIDTHS = {
     " ": 250, ",": 250, ".": 250, "-": 333, ":": 278, ";": 278,
-    "'": 180, "(": 333, ")": 333, "/": 278,
+    "'": 180, "(": 333, ")": 333, "/": 278, "|": 200,
+    A: 722, B: 667, C: 667, D: 722, E: 611, F: 556, G: 722,
+    H: 722, I: 333, J: 389, K: 722, L: 611, M: 889, N: 722,
+    O: 722, P: 556, Q: 722, R: 667, S: 556, T: 611, U: 722,
+    V: 722, W: 944, X: 722, Y: 722, Z: 611,
     a: 444, b: 500, c: 444, d: 500, e: 444, f: 333, g: 500,
     h: 500, i: 278, j: 278, k: 500, l: 278, m: 778, n: 500,
     o: 500, p: 500, q: 500, r: 333, s: 389, t: 278, u: 500,
     v: 500, w: 722, x: 500, y: 500, z: 444,
+  };
+
+  const TIMES_BOLD_WIDTHS = {
+    ",": 250,
+    E: 667, I: 389, M: 944, S: 556, T: 667,
+  };
+
+  const TIMES_ITALIC_WIDTHS = {
+    " ": 250, ",": 250, ".": 250,
+    C: 667, D: 722, F: 611, S: 500, T: 556,
+    a: 500, c: 444, d: 500, e: 444, f: 278, g: 500, h: 500,
+    i: 278, l: 278, m: 722, n: 500, o: 500, p: 500, r: 389,
+    s: 389, t: 278, u: 500, v: 444, y: 444,
+  };
+
+  const TIMES_WIDTHS_BY_FONT = {
+    F1: TIMES_ROMAN_WIDTHS,
+    F2: TIMES_BOLD_WIDTHS,
+    F3: TIMES_ITALIC_WIDTHS,
   };
 
   const roundWhole = (value) => Math.round(value);
@@ -99,24 +122,23 @@
     return `${colour} rg BT /${font} ${size} Tf ${x.toFixed(1)} ${y} Td (${safeText}) Tj ET`;
   }
 
-  function timesRomanTextWidth(text, fontSize) {
+  function timesTextWidth(text, fontSize, font = "F1") {
+    const widths = TIMES_WIDTHS_BY_FONT[font] || TIMES_ROMAN_WIDTHS;
     const units = Array.from(String(text)).reduce((total, character) => {
       if (/\d/.test(character)) return total + 500;
-      return total + (TIMES_ROMAN_WIDTHS[character] || 500);
+      return total + (widths[character] ?? 500);
     }, 0);
     return units * fontSize / 1000;
   }
 
-  function pdfTimesRomanCentered(text, y, size, colour) {
-    const safeText = pdfEscape(text);
-    const x = Math.max(42, (PDF_PAGE_WIDTH - timesRomanTextWidth(text, size)) / 2);
-    return `${colour} rg BT /F1 ${size} Tf ${x.toFixed(2)} ${y} Td (${safeText}) Tj ET`;
+  function timesRomanTextWidth(text, fontSize) {
+    return timesTextWidth(text, fontSize, "F1");
   }
 
-  function pdfTimesBoldCentered(text, y, size, colour) {
+  function pdfTimesCentered(text, y, font, size, colour) {
     const safeText = pdfEscape(text);
-    const x = Math.max(42, (PDF_PAGE_WIDTH - timesRomanTextWidth(text, size)) / 2);
-    return `${colour} rg BT /F2 ${size} Tf ${x.toFixed(2)} ${y} Td (${safeText}) Tj ET`;
+    const x = Math.max(42, (PDF_PAGE_WIDTH - timesTextWidth(text, size, font)) / 2);
+    return `${colour} rg BT /${font} ${size} Tf ${x.toFixed(2)} ${y} Td (${safeText}) Tj ET`;
   }
 
   function buildCertificatePdf(result) {
@@ -144,14 +166,14 @@
       pdfText("CERTIFICATE OF GOLF ADDICTION", 443, "F2", 30, ivory, 0.55),
       pdfText("This certifies that", 400, "F3", 15, ivory, 0.48),
       pdfText("COLIN SIMPSON", 354, "F2", 37, brightGold, 0.58),
-      pdfTimesRomanCentered("has, after careful family calculation, hit the little white ball an estimated", 317, 13, ivory),
-      pdfTimesBoldCentered(hitLabel, 245, hitLabel.length > 9 ? 50 : 59, brightGold),
-      pdfText("TIMES", 211, "F2", 15, ivory, 0.62),
+      pdfTimesCentered("has, after careful family calculation, hit the little white ball an estimated", 317, "F1", 13, ivory),
+      pdfTimesCentered(hitLabel, 245, "F2", hitLabel.length > 9 ? 50 : 59, brightGold),
+      pdfTimesCentered("TIMES", 211, "F2", 15, ivory),
       `${gold} RG 0.8 w 205 184 m 637 184 l S`,
-      pdfText(summary, 157, "F1", 11, ivory, 0.48),
-      pdfText("Compiled from scorecards, memory, optimism and selective accounting.", 116, "F3", 13, brightGold, 0.47),
-      pdfText(`Issued ${dateLabel}`, 78, "F1", 9, ivory, 0.48),
-      pdfText("The Family Statistics Department", 54, "F3", 10, ivory, 0.48),
+      pdfTimesCentered(summary, 157, "F1", 11, ivory),
+      pdfTimesCentered("Compiled from scorecards, memory, optimism and selective accounting.", 116, "F3", 13, brightGold),
+      pdfTimesCentered(`Issued ${dateLabel}`, 78, "F1", 9, ivory),
+      pdfTimesCentered("The Family Statistics Department", 54, "F3", 10, ivory),
     ].join("\n");
 
     const objects = [

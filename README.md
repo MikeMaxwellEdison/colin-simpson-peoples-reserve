@@ -23,7 +23,7 @@ The video files can be added later without changing any public address.
 
 The little-white-ball calculator is in `golf-calculator.html`. It saves Colin’s entries and
 latest result in the browser on the device being used, makes his personalised PDF certificate,
-and can create a private result link for carrying the estimate to a second device. The link
+and can create a portable result link for carrying the estimate to a second device. The link
 stores the calculator figures in its address rather than publishing them to the tribute. True
 automatic cross-device saving needs an authenticated online data store; GitHub Pages alone is
 read-only and cannot provide it safely.

@@ -586,7 +586,7 @@
       } catch (error) {
         if (error?.name === "AbortError") return;
         revealShareFallback(url);
-        shareStatus.textContent = "Copy this private result link and open it on the other device.";
+        shareStatus.textContent = "Copy this portable result link and open it on the other device.";
       }
     });
 

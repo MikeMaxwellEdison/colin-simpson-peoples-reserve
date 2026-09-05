@@ -17,13 +17,21 @@ The editable details cover the early family portrait, Waikanae trophy, All Black
 Repco Hall of Fame, Repco briefcase-phone photo, golf teammates, German city,
 Martinborough venue, 1956 school photo, 1961 hockey photo and young tuxedo photo.
 
-Laura’s and Mike’s portrait video positions are already reserved on the main page. Willa’s
-video shows the finished portrait treatment. Their video files can be added later without
-changing the public address.
+Laura’s and Mike’s short portrait video positions are reserved on the main page. Their new
+`laura.html` and `mike.html` pages also reserve portrait spaces for the full-length versions.
+The video files can be added later without changing any public address.
 
 The little-white-ball calculator is in `golf-calculator.html`. It saves Colin’s entries and
 latest result in the browser on the device being used, makes his personalised PDF certificate,
-and can create a private result link for carrying the estimate to a second device. The result
-link stores the calculator figures in its address rather than publishing them to the tribute.
-The main-page story links also remember where they were opened so the return links can place
-the reader back at the same spot.
+and can create a private result link for carrying the estimate to a second device. The link
+stores the calculator figures in its address rather than publishing them to the tribute. True
+automatic cross-device saving needs an authenticated online data store; GitHub Pages alone is
+read-only and cannot provide it safely.
+
+The permanent family golf estimate is also prepared as an easy update. When Mike and Ally have
+agreed on the eras, replace `window.COLIN_FAMILY_GOLF_ESTIMATE = null` in `editable-details.js`
+with the completed segments. The page will calculate the family total and compare it with the
+estimate Colin enters.
+
+The main-page story links remember where they were opened so the return links can place the
+reader back at the same spot.

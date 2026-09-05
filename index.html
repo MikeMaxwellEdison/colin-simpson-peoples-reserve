@@ -30,9 +30,9 @@
       rel="stylesheet"
     />
     <link rel="preload" as="image" href="assets/images/hero-two-sir-colins.webp" />
-    <link rel="stylesheet" href="styles.css?v=20260905-2" />
-    <script src="editable-details.js" defer></script>
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260905-3" />
+    <script src="editable-details.js?v=20260905-3" defer></script>
+    <script src="script.js?v=20260905-3" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to the memories</a>
@@ -148,8 +148,9 @@
               </div>
               <div class="video-copy">
                 <span class="card-kicker">Laura · For Dad</span>
-                <h3>A Father’s Day message from Laura</h3>
-                <p>Laura’s portrait iPhone video will sit here in the same format as Willa’s.</p>
+                <h3>How lucky are we to have you</h3>
+                <p>Laura’s short portrait message will be added here. Her photographs and full Father’s Day page are ready now.</p>
+                <a class="text-link" id="laura-story-link" href="laura.html" data-story-link>Read Laura’s message <span aria-hidden="true">→</span></a>
               </div>
             </article>
 
@@ -160,8 +161,9 @@
               </div>
               <div class="video-copy">
                 <span class="card-kicker">Mike · For Dad</span>
-                <h3>A Father’s Day message from Mike</h3>
-                <p>Mike’s portrait Samsung video will be added here as soon as it is ready.</p>
+                <h3>A legendary father. A pretty good bloke.</h3>
+                <p>Mike’s short portrait message will be added here. His photographs, message and a few treasured texts are ready now.</p>
+                <a class="text-link" id="mike-story-link" href="mike.html" data-story-link>Read Mike’s message <span aria-hidden="true">→</span></a>
               </div>
             </article>
 
@@ -233,7 +235,7 @@
           </figure>
           <figure class="photo-card photo-card-wide" data-reveal>
             <img src="assets/images/family-brothers-1989.webp" alt="The seven Simpson brothers standing together in February 1989" width="1800" height="1350" loading="lazy" decoding="async" />
-            <figcaption><strong>The seven Simpson brothers · February 1989</strong><span>Ron, Lindsay, Les, Bruce, Colin, Graeme and Wayne. Colin is fifth from the left.</span></figcaption>
+            <figcaption><strong>The seven Simpson brothers · February 1989</strong><span>Ron, Lindsay, Les, Bruce, Colin, Graeme and Wayne. Colin is fifth from the left. Their older sister Renée is not pictured; she was a very special sibling to the boys and, for Colin growing up, something of a second mum.</span></figcaption>
           </figure>
         </div>
 
@@ -280,8 +282,24 @@
         </aside>
 
         <details class="archive-drawer" data-reveal>
-          <summary><span>From the early family archive</span><small>Three captions ready for Mum’s details</small></summary>
-          <div class="archive-grid">
+          <summary><span>Dad’s beginnings</span><small>Foxton, Karori and the Simpson family</small></summary>
+          <div class="origins-intro">
+            <p>
+              Colin was born in Foxton on 19 January 1951 after Hazel travelled back from Wellington
+              to have her sixth baby. He grew up in Karori as one of eight Simpson children: Renée first,
+              followed by seven brothers. For six years Colin was the youngest, before Graeme and Wayne arrived.
+            </p>
+            <p>
+              The next pieces of Hazel and Ron’s story, more about the brothers, and a proper tribute to Renée
+              will be added here once Mum has helped fill in the family details.
+            </p>
+          </div>
+          <div class="origins-grid" aria-label="Family stories to be completed">
+            <article class="origin-card"><span aria-hidden="true">H · R</span><h3>Hazel &amp; Ron</h3><p>Colin’s mum and dad. Their photographs and more of their story will have a place here.</p></article>
+            <article class="origin-card origin-card-renee"><span aria-hidden="true">R</span><h3>Renée</h3><p>The eldest Simpson child, a much-loved sister and an especially important guiding presence in Colin’s early life.</p></article>
+            <article class="origin-card"><span aria-hidden="true">7</span><h3>The brothers</h3><p>Ron, Lindsay, Les, Bruce, Colin, Graeme and Wayne — seven brothers, with more family memories still to come.</p></article>
+          </div>
+          <div class="archive-grid archive-schooldays">
             <figure class="photo-card">
               <img src="assets/images/archive-school-1956.webp" alt="A 1956 school class photograph from Colin’s family archive" width="2200" height="1650" loading="lazy" decoding="async" />
               <figcaption data-detail="school1956">A 1956 school photograph from Colin’s family archive.</figcaption>
@@ -406,8 +424,14 @@
           </figure>
           <div class="repco-copy" data-reveal>
             <div class="repco-years"><span>1966</span><i aria-hidden="true"></i><span>2020</span></div>
-            <p class="lead">His service was recognised by the Repco New Zealand Hall of Fame. Yet the strongest measure of the career is how many former colleagues still call, remember the family and make room at the next table.</p>
-            <blockquote class="message-inline"><p>“You touched a number of Repco lives buster.”</p><cite>Dad to Mike · 13 October 2024</cite></blockquote>
+            <p class="lead">His service was recognised by the Repco New Zealand Hall of Fame. Yet the career’s strongest measure is still the people: former colleagues who call, remember the family and make room at the next table.</p>
+            <p>
+              Dad gave Mike his first start in work within the Elite Region, among the caring, experienced team
+              Colin had built. It was a guided beginning that gave Mike people to learn from, standards to work by
+              and a Repco family of his own. That start shaped Mike’s future career enormously — and Dad’s example
+              remains part of how he approaches people and work today.
+            </p>
+            <blockquote class="message-inline"><p>“You touched a number of Repco lives buster.”</p><cite>Dad to Mike after a day with old Repco workmates · 13 October 2024</cite></blockquote>
             <ul class="label-list" aria-label="Repco milestones"><li>1966 · First delivery</li><li>1979 · Wellington branch manager</li><li>2012 · Forty years recognised</li><li>2020 · Retirement after 52 years</li><li>2022 · Repco centenary guest</li></ul>
             <a class="button button-dark" id="repco-story-link" href="repco.html" data-story-link>Read the full Repco story <span aria-hidden="true">→</span></a>
           </div>

@@ -274,8 +274,10 @@
     const resultHoles = document.getElementById("result-holes");
     const resultEras = document.getElementById("result-eras");
     const savedDate = document.getElementById("saved-date");
+    const calculateButtonLabel = document.getElementById("calculate-button-label");
     const certificateButton = document.getElementById("download-certificate");
     const shareButton = document.getElementById("share-result");
+    const clearButton = document.getElementById("clear-result");
     const shareStatus = document.getElementById("share-status");
     const shareFallback = document.getElementById("share-link-fallback");
     const shareLink = document.getElementById("share-link");
@@ -284,9 +286,20 @@
     const cancelButton = document.getElementById("cancel-recalculate");
     const downloadThenButton = document.getElementById("download-then-recalculate");
     const confirmButton = document.getElementById("confirm-recalculate");
+    const clearDialog = document.getElementById("clear-dialog");
+    const cancelClearButton = document.getElementById("cancel-clear");
+    const confirmClearButton = document.getElementById("confirm-clear");
+    const familyEstimatePending = document.getElementById("family-estimate-pending");
+    const familyEstimateReady = document.getElementById("family-estimate-ready");
+    const familyEstimateNumber = document.getElementById("family-estimate-number");
+    const familyEstimateSummary = document.getElementById("family-estimate-summary");
+    const familyComparison = document.getElementById("family-result-comparison");
+    const familyComparisonTitle = document.getElementById("family-comparison-title");
+    const familyComparisonCopy = document.getElementById("family-comparison-copy");
 
     let currentResult = null;
     let pendingSegments = null;
+    let familyResult = null;
 
     const emptySegment = (from = "") => ({ from, to: from, games: "", frequency: "week", holes: "9", score: "" });
     const safeNumberValue = (value) => /^\d*(?:\.\d*)?$/.test(String(value ?? "")) ? String(value ?? "") : "";
@@ -314,6 +327,17 @@
       } catch (_error) {
         // The calculator still works if private browsing blocks local storage.
       }
+    };
+
+    const clearSharedHash = () => {
+      if (!window.location.hash.startsWith(SHARE_HASH_PREFIX)) return;
+      const url = new URL(window.location.href);
+      url.hash = "";
+      window.history.replaceState(null, "", url);
+    };
+
+    const updateCalculateButton = () => {
+      calculateButtonLabel.textContent = currentResult ? "Update the estimate" : "Calculate the lifetime total";
     };
 
     const buildShareUrl = (result) => {
@@ -364,6 +388,39 @@
       updateSegmentLabels();
     };
 
+    const showFamilyComparison = (result) => {
+      if (!familyResult || !Number.isFinite(Number(familyResult.totalHits))) {
+        familyComparison.hidden = true;
+        return;
+      }
+
+      const difference = Number(result.totalHits) - Number(familyResult.totalHits);
+      const absoluteDifference = Math.abs(difference);
+      const percentage = familyResult.totalHits > 0 ? absoluteDifference / familyResult.totalHits * 100 : 0;
+      if (difference === 0) {
+        familyComparisonTitle.textContent = "An exact match.";
+      } else {
+        familyComparisonTitle.textContent = `${formatNumber(absoluteDifference)} hits ${difference > 0 ? "above" : "below"} the family’s guess.`;
+      }
+      familyComparisonCopy.textContent = `The family’s permanent estimate is ${formatNumber(familyResult.totalHits)} hits. That puts the family within ${percentage.toLocaleString("en-NZ", { maximumFractionDigits: 1 })}% of this calculation.`;
+      familyComparison.hidden = false;
+    };
+
+    const initialiseFamilyEstimate = () => {
+      const configured = typeof window.COLIN_FAMILY_GOLF_ESTIMATE === "object" ? window.COLIN_FAMILY_GOLF_ESTIMATE : null;
+      if (!configured || !Array.isArray(configured.segments) || !configured.segments.length) return;
+
+      try {
+        familyResult = calculateSegments(configured.segments);
+        familyEstimateNumber.textContent = formatNumber(familyResult.totalHits);
+        familyEstimateSummary.textContent = `${formatNumber(familyResult.totalGames)} games · ${formatNumber(familyResult.totalHoles)} holes · ${familyResult.segments.length} golfing era${familyResult.segments.length === 1 ? "" : "s"}`;
+        familyEstimatePending.hidden = true;
+        familyEstimateReady.hidden = false;
+      } catch (_error) {
+        familyResult = null;
+      }
+    };
+
     const showResult = (result, shouldFocus = false) => {
       currentResult = result;
       resultNumber.textContent = formatNumber(result.totalHits);
@@ -372,11 +429,34 @@
       resultEras.textContent = String(result.segments.length);
       const date = new Date(result.calculatedAt);
       savedDate.textContent = `Saved on this device · ${date.toLocaleString("en-NZ", { dateStyle: "long", timeStyle: "short" })}`;
+      showFamilyComparison(result);
+      updateCalculateButton();
       resultElement.hidden = false;
       if (shouldFocus) {
         resultElement.focus({ preventScroll: true });
         resultElement.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
       }
+    };
+
+    const clearSavedEstimate = () => {
+      currentResult = null;
+      pendingSegments = null;
+      try {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } catch (_error) {
+        // The visible calculator can still be cleared if storage is unavailable.
+      }
+      clearSharedHash();
+      segmentsElement.replaceChildren();
+      addSegment(emptySegment());
+      resultElement.hidden = true;
+      familyComparison.hidden = true;
+      shareFallback.hidden = true;
+      shareStatus.textContent = "";
+      savedDate.textContent = "";
+      statusElement.textContent = "Saved estimate cleared. Start a new estimate whenever you’re ready.";
+      updateCalculateButton();
+      form.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
     };
 
     const performCalculation = () => {
@@ -395,6 +475,7 @@
       }
     };
 
+    initialiseFamilyEstimate();
     const saved = loadState();
     let sharedResult = null;
     if (window.location.hash.startsWith(SHARE_HASH_PREFIX)) {
@@ -414,17 +495,21 @@
     } else if (saved.result) {
       showResult(saved.result);
     }
+    updateCalculateButton();
 
     segmentsElement.addEventListener("click", (event) => {
       const remove = event.target.closest("[data-remove-segment]");
       if (!remove) return;
       remove.closest("[data-segment]")?.remove();
       updateSegmentLabels();
+      clearSharedHash();
       saveState();
+      if (currentResult) statusElement.textContent = "Changes saved. Select Update the estimate when you’re ready.";
     });
 
     form.addEventListener("input", () => {
-      statusElement.textContent = "";
+      statusElement.textContent = currentResult ? "Changes saved. Select Update the estimate when you’re ready." : "";
+      clearSharedHash();
       saveState();
     });
 
@@ -432,7 +517,9 @@
       const existing = collectSegments();
       const previousEnd = Number(existing.at(-1)?.to);
       addSegment(emptySegment(Number.isInteger(previousEnd) && previousEnd < CURRENT_YEAR ? previousEnd + 1 : ""));
+      clearSharedHash();
       saveState();
+      if (currentResult) statusElement.textContent = "New era saved. Select Update the estimate when you’re ready.";
       segmentsElement.lastElementChild?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
 
@@ -466,6 +553,17 @@
 
     certificateButton.addEventListener("click", () => {
       if (currentResult) downloadCertificate(currentResult);
+    });
+
+    clearButton.addEventListener("click", () => {
+      if (typeof clearDialog.showModal === "function") clearDialog.showModal();
+      else if (window.confirm("Clear the saved result and every golfing era on this device?")) clearSavedEstimate();
+    });
+
+    cancelClearButton.addEventListener("click", () => clearDialog.close());
+    confirmClearButton.addEventListener("click", () => {
+      clearDialog.close();
+      clearSavedEstimate();
     });
 
     shareButton.addEventListener("click", async () => {
@@ -506,6 +604,7 @@
     dialog.addEventListener("cancel", () => {
       pendingSegments = null;
     });
+    clearDialog.addEventListener("cancel", () => {});
   }
 
   if (typeof module !== "undefined" && module.exports) {

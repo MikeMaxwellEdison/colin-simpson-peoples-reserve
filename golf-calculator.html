@@ -17,9 +17,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Italianno&amp;family=Montserrat:wght@400;500;600&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260905-2" />
-    <script src="script.js" defer></script>
-    <script src="golf-calculator.js?v=20260905-2" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260905-3" />
+    <script src="editable-details.js?v=20260905-3" defer></script>
+    <script src="script.js?v=20260905-3" defer></script>
+    <script src="golf-calculator.js?v=20260905-3" defer></script>
   </head>
   <body class="subpage calculator-page">
     <a class="skip-link" href="#calculator">Skip to the calculator</a>
@@ -53,7 +54,7 @@
         <header class="section-heading centered narrow" data-reveal>
           <p class="eyebrow ink">How to make a respectable estimate</p>
           <h2 id="calculator-title">Build Dad’s golfing life, one era at a time.</h2>
-          <p>Golf habits change. Add a separate era whenever the number of games or typical score changed; gaps are welcome, but the years cannot overlap.</p>
+          <p>Golf habits change. Add a separate era whenever the number of games or typical score changed; gaps are welcome, but the years cannot overlap. Your eras save as you type, so old scorecards can be folded in later.</p>
         </header>
 
         <ol class="calculator-guide" data-reveal>
@@ -61,6 +62,26 @@
           <li><span>02</span><strong>Set the rhythm</strong><p>Enter the average number of games and whether that was per week, month or year.</p></li>
           <li><span>03</span><strong>Add the score</strong><p>A golf score is the number of shots. For example, a nine-hole average of 48 contributes roughly 48 hits per game.</p></li>
         </ol>
+
+        <section class="family-estimate-panel" id="family-estimate-panel" data-reveal aria-label="Family golf estimate">
+          <div class="family-estimate-pending" id="family-estimate-pending">
+            <p class="eyebrow gold">The family’s first guess</p>
+            <h3 id="family-estimate-title">How well do we know Dad’s time on the course?</h3>
+            <p>Mike and Ally are building the family’s best estimate together. Once their golfing eras are settled, that number will be published here permanently as the house estimate — ready for Colin to test against the record he remembers.</p>
+            <span class="estimate-status">Family calculation in progress</span>
+          </div>
+          <div class="family-estimate-ready" id="family-estimate-ready" hidden>
+            <div>
+              <p class="eyebrow gold">The family’s permanent estimate</p>
+              <h3 id="family-estimate-ready-title">This is how well we think we know your golf.</h3>
+              <p>Mike and Ally worked through the years, the usual number of rounds and the likely scores. Now it is your turn: adjust the eras below and see how close the family came.</p>
+            </div>
+            <div class="family-estimate-total" aria-label="The family’s estimated lifetime golf shots">
+              <strong id="family-estimate-number">0</strong><span>estimated hits</span>
+              <small id="family-estimate-summary"></small>
+            </div>
+          </div>
+        </section>
 
         <form class="golf-form" id="golf-form" novalidate data-reveal>
           <div class="segment-heading">
@@ -75,8 +96,8 @@
           <p class="form-status" id="form-status" role="alert" aria-live="polite"></p>
 
           <div class="calculator-actions">
-            <p>Your entries are kept privately on this device. After calculating, use <strong>Share result</strong> to carry the saved estimate to another phone, tablet or computer.</p>
-            <button class="button button-gold calculate-button" type="submit">Calculate the lifetime total <span aria-hidden="true">→</span></button>
+            <p>Your eras and latest result save privately in this browser. After calculating, use <strong>Keep on another device</strong> to open and save the same estimate on another phone, tablet or computer.</p>
+            <button class="button button-gold calculate-button" id="calculate-button" type="submit"><span id="calculate-button-label">Calculate the lifetime total</span> <span aria-hidden="true">→</span></button>
           </div>
         </form>
 
@@ -90,12 +111,18 @@
             <span><strong id="result-holes">0</strong> estimated holes</span>
             <span><strong id="result-eras">0</strong> golfing eras</span>
           </div>
+          <div class="family-result-comparison" id="family-result-comparison" hidden>
+            <span>Compared with the family’s estimate</span>
+            <strong id="family-comparison-title"></strong>
+            <p id="family-comparison-copy"></p>
+          </div>
           <p class="result-note">Calculated from the playing periods, frequency and average scores entered above.</p>
           <div class="result-actions">
             <button class="button button-gold" type="button" id="download-certificate">Download Colin’s commemorative golf certificate <span aria-hidden="true">↓</span></button>
-            <button class="button button-result-share" type="button" id="share-result">Share result to another device <span aria-hidden="true">↗</span></button>
+            <button class="button button-result-share" type="button" id="share-result">Keep on another device <span aria-hidden="true">↗</span></button>
+            <button class="button button-result-clear" type="button" id="clear-result">Clear saved estimate</button>
           </div>
-          <p class="result-share-note">The shared link contains only the golfing eras and estimate. Opening it saves the result in that device’s browser.</p>
+          <p class="result-share-note">The private link contains only the golfing eras and estimate. Opening it saves the result in that device’s browser; nothing is added to the public tribute.</p>
           <div class="share-link-fallback" id="share-link-fallback" hidden>
             <label for="share-link">Result link</label>
             <div><input id="share-link" type="text" readonly /><button class="button button-result-share" id="copy-share-link" type="button">Copy link</button></div>
@@ -107,7 +134,10 @@
 
       <section class="signature-quote calculator-quote" data-reveal>
         <span class="quote-mark" aria-hidden="true">“</span>
-        <p>My name is Colin Simpson and I play golf twice a week.</p>
+        <div class="signature-quote-copy">
+          <p>My name is Colin Simpson and I play golf twice a week…</p>
+          <cite>16 April 2023 · Dad opening a message to Mike about winning the golf-shop competition “because I was bloody good.”</cite>
+        </div>
       </section>
     </main>
 
@@ -120,6 +150,17 @@
         <button class="button button-outline" type="button" id="cancel-recalculate">Cancel</button>
         <button class="button button-dark" type="button" id="download-then-recalculate">Download previous certificate &amp; continue</button>
         <button class="button button-gold" type="button" id="confirm-recalculate">Continue</button>
+      </div>
+    </dialog>
+
+    <dialog class="recalculate-dialog" id="clear-dialog" aria-labelledby="clear-dialog-title">
+      <div class="dialog-crest" aria-hidden="true"><span>CS</span></div>
+      <p class="eyebrow ink">Start the estimate again</p>
+      <h2 id="clear-dialog-title">Clear the saved result and every era?</h2>
+      <p>This removes the estimate from this browser and returns the calculator to one blank era.</p>
+      <div class="dialog-actions">
+        <button class="button button-outline" type="button" id="cancel-clear">Cancel</button>
+        <button class="button button-dark" type="button" id="confirm-clear">Clear saved estimate</button>
       </div>
     </dialog>
 

@@ -30,9 +30,9 @@
       rel="stylesheet"
     />
     <link rel="preload" as="image" href="assets/images/hero-two-sir-colins.webp" />
-    <link rel="stylesheet" href="styles.css?v=20260905-3" />
-    <script src="editable-details.js?v=20260905-3" defer></script>
-    <script src="script.js?v=20260905-3" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260905-5" />
+    <script src="editable-details.js?v=20260905-5" defer></script>
+    <script src="script.js?v=20260905-5" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to the memories</a>
@@ -141,29 +141,33 @@
               </div>
             </article>
 
-            <article class="video-card video-card-coming" data-reveal>
-              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Laura">
-                <span class="phone-outline" aria-hidden="true"><i>LS</i></span>
-                <strong>Laura’s message</strong><small>Coming soon</small>
+            <article class="video-card video-card-portrait" data-reveal>
+              <div class="video-frame portrait-video-frame">
+                <video controls playsinline preload="metadata" poster="assets/images/message-laura.png" aria-label="Laura’s short Father’s Day message for Dad">
+                  <source src="assets/videos/laura-short.mp4" type="video/mp4" />
+                  Your browser cannot play this video.
+                </video>
               </div>
               <div class="video-copy">
                 <span class="card-kicker">Laura · For Dad</span>
                 <h3>How lucky are we to have you</h3>
-                <p>Laura’s short portrait message will be added here. Her photographs and full Father’s Day page are ready now.</p>
-                <a class="text-link" id="laura-story-link" href="laura.html" data-story-link>Read Laura’s message <span aria-hidden="true">→</span></a>
+                <p>Laura and Willa share a short message for the happy, safe place Dad has always been.</p>
+                <a class="text-link" id="laura-story-link" href="laura.html" data-story-link>Watch Laura’s full message <span aria-hidden="true">→</span></a>
               </div>
             </article>
 
-            <article class="video-card video-card-coming" data-reveal>
-              <div class="video-placeholder portrait-video" role="img" aria-label="Reserved portrait video space for Mike">
-                <span class="phone-outline" aria-hidden="true"><i>MS</i></span>
-                <strong>Mike’s message</strong><small>Coming soon</small>
+            <article class="video-card video-card-portrait" data-reveal>
+              <div class="video-frame portrait-video-frame">
+                <video controls playsinline preload="metadata" poster="assets/images/message-mike.png" aria-label="Mike’s short Father’s Day message for Dad">
+                  <source src="assets/videos/mike-short.mp4" type="video/mp4" />
+                  Your browser cannot play this video.
+                </video>
               </div>
               <div class="video-copy">
                 <span class="card-kicker">Mike · For Dad</span>
                 <h3>A legendary father. A pretty good bloke.</h3>
-                <p>Mike’s short portrait message will be added here. His photographs, message and a few treasured texts are ready now.</p>
-                <a class="text-link" id="mike-story-link" href="mike.html" data-story-link>Read Mike’s message <span aria-hidden="true">→</span></a>
+                <p>Mike shares a short thank-you for Dad’s guidance, support and the example that helped shape him.</p>
+                <a class="text-link" id="mike-story-link" href="mike.html" data-story-link>Watch Mike’s full message <span aria-hidden="true">→</span></a>
               </div>
             </article>
 
@@ -283,21 +287,73 @@
 
         <details class="archive-drawer" data-reveal>
           <summary><span>Dad’s beginnings</span><small>Foxton, Karori and the Simpson family</small></summary>
-          <div class="origins-intro">
+          <div class="origins-intro origins-intro-final">
             <p>
               Colin was born in Foxton on 19 January 1951 after Hazel travelled back from Wellington
               to have her sixth baby. He grew up in Karori as one of eight Simpson children: Renée first,
               followed by seven brothers. For six years Colin was the youngest, before Graeme and Wayne arrived.
             </p>
             <p>
-              The next pieces of Hazel and Ron’s story, more about the brothers, and a proper tribute to Renée
-              will be added here once Mum has helped fill in the family details.
+              Colin grew up in a loving family. For much of his childhood he spent the most time with Bruce,
+              who was just two years older, in a household shaped by hard work, family loyalty and Hazel’s firm hand.
             </p>
           </div>
-          <div class="origins-grid" aria-label="Family stories to be completed">
-            <article class="origin-card"><span aria-hidden="true">H · R</span><h3>Hazel &amp; Ron</h3><p>Colin’s mum and dad. Their photographs and more of their story will have a place here.</p></article>
-            <article class="origin-card origin-card-renee"><span aria-hidden="true">R</span><h3>Renée</h3><p>The eldest Simpson child, a much-loved sister and an especially important guiding presence in Colin’s early life.</p></article>
-            <article class="origin-card"><span aria-hidden="true">7</span><h3>The brothers</h3><p>Ron, Lindsay, Les, Bruce, Colin, Graeme and Wayne — seven brothers, with more family memories still to come.</p></article>
+
+          <div class="archive-story-grid" aria-label="Stories of Colin’s parents and sister">
+            <article class="archive-story-card">
+              <figure>
+                <img src="assets/images/archive-hazel-ron.webp" alt="Hazel and Ron Simpson dressed for a formal occasion" width="1800" height="1350" loading="lazy" decoding="async" />
+              </figure>
+              <div class="archive-story-copy">
+                <p class="eyebrow gold">His mum &amp; dad</p>
+                <h3>Hazel &amp; Ron</h3>
+                <p>Ron was a hard worker and a baker by trade. He spent 32 years with the Parks and Reserves Department of Wellington City Council, and served as President of the Karori RSA from 1969 to 1982.</p>
+                <p>Hazel was the family disciplinarian — probably a necessary role with seven boys, especially the twins. She was always dressed well and loved her jewellery.</p>
+              </div>
+            </article>
+            <article class="archive-story-card archive-story-card-renee">
+              <figure>
+                <img src="assets/images/archive-colin-renee-1987.webp" alt="Colin smiling with his older sister Renée in April 1987" width="644" height="574" loading="lazy" decoding="async" />
+              </figure>
+              <div class="archive-story-copy">
+                <p class="eyebrow gold">His big sister</p>
+                <h3>Renée</h3>
+                <p>Renée was the eldest of the eight children and a very special sister to all the boys. She was like a second mum to Bruce and Colin, and Dad remembers fondly the times she would take them to the movies.</p>
+                <p class="archive-photo-date">Colin and Renée · April 1987</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="archive-subheading">
+            <p class="eyebrow ink">Kept close through the years</p>
+            <h3>The Simpson family album</h3>
+          </div>
+          <div class="archive-family-gallery">
+            <figure class="photo-card">
+              <img src="assets/images/archive-colin-hazel.webp" alt="Colin standing beside his mum Hazel at a formal family occasion" width="1350" height="1800" loading="lazy" decoding="async" />
+              <figcaption><strong>Colin &amp; Hazel</strong><span>Dad with his much-loved mum.</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="assets/images/archive-colin-renee.webp" alt="Colin smiling with his older sister Renée" width="1350" height="1800" loading="lazy" decoding="async" />
+              <figcaption><strong>Colin &amp; Renée</strong><span>Brother and big sister together.</span></figcaption>
+            </figure>
+            <figure class="photo-card">
+              <img src="assets/images/archive-phillip-colin-ron-bruce.webp" alt="Colin standing outdoors with his dad Ron, Phillip and Bruce" width="1266" height="1546" loading="lazy" decoding="async" />
+              <figcaption><strong>With Dad</strong><span>Phillip, Colin, Ron and Bruce.</span></figcaption>
+            </figure>
+            <figure class="photo-card archive-family-wide">
+              <img src="assets/images/archive-pam-ally-colin-renee-les-dot.webp" alt="Pam, Ally, Colin, Renée, Les and Dot smiling together" width="1254" height="568" loading="lazy" decoding="async" />
+              <figcaption><strong>Family together</strong><span>Pam, Ally, Colin, Renée, Les and Dot.</span></figcaption>
+            </figure>
+            <figure class="photo-card archive-family-wide">
+              <img src="assets/images/archive-siblings-with-renee.webp" alt="Ron, Bruce, Les, Renée, Colin, Wayne and Graeme together outdoors" width="796" height="568" loading="lazy" decoding="async" />
+              <figcaption><strong>Renée and the boys</strong><span>Ron, Bruce, Les, Renée, Colin, Wayne and Graeme.</span></figcaption>
+            </figure>
+          </div>
+
+          <div class="archive-subheading archive-schooldays-heading">
+            <p class="eyebrow ink">The early years</p>
+            <h3>School days and special occasions</h3>
           </div>
           <div class="archive-grid archive-schooldays">
             <figure class="photo-card">

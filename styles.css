@@ -1262,6 +1262,121 @@ video {
   margin: 0;
 }
 
+.archive-story-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 50px;
+}
+
+.archive-story-card {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(185, 147, 73, 0.14), transparent 34%),
+    var(--black);
+  border: 1px solid rgba(185, 147, 73, 0.34);
+  color: var(--ivory);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.archive-story-card figure {
+  aspect-ratio: 4 / 3;
+  background: #0b0a09;
+  margin: 0;
+  overflow: hidden;
+}
+
+.archive-story-card img {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.archive-story-copy {
+  padding: clamp(28px, 4vw, 45px);
+}
+
+.archive-story-copy .eyebrow {
+  margin-bottom: 16px;
+}
+
+.archive-story-copy h3,
+.archive-subheading h3 {
+  font-family: var(--serif);
+  font-size: clamp(31px, 4vw, 45px);
+  font-weight: 500;
+  line-height: 1;
+  margin: 0 0 20px;
+}
+
+.archive-story-copy p:not(.eyebrow, .archive-photo-date) {
+  color: rgba(243, 238, 226, 0.68);
+  font-size: 13px;
+  line-height: 1.72;
+  margin: 0;
+}
+
+.archive-story-copy p + p:not(.archive-photo-date) {
+  margin-top: 14px;
+}
+
+.archive-photo-date {
+  color: var(--gold-bright);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  margin: 26px 0 0;
+  text-transform: uppercase;
+}
+
+.archive-subheading {
+  border-top: 1px solid var(--line);
+  padding: 44px 4px 26px;
+  text-align: center;
+}
+
+.archive-subheading .eyebrow {
+  margin-bottom: 12px;
+}
+
+.archive-subheading h3 {
+  color: var(--ink);
+  margin-bottom: 0;
+}
+
+.archive-family-gallery {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  padding-bottom: 42px;
+}
+
+.archive-family-gallery .photo-card {
+  display: flex;
+  flex-direction: column;
+  grid-column: span 2;
+}
+
+.archive-family-gallery .archive-family-wide {
+  grid-column: span 3;
+}
+
+.archive-family-gallery .photo-card img {
+  aspect-ratio: auto;
+  background: var(--black-soft);
+  object-fit: contain;
+}
+
+.archive-family-gallery .photo-card figcaption {
+  flex: 1;
+}
+
+.archive-schooldays-heading {
+  margin-top: 8px;
+}
+
 .origins-grid {
   display: grid;
   gap: 14px;
@@ -1323,8 +1438,8 @@ video {
 }
 
 .archive-schooldays {
-  border-top: 1px solid var(--line);
-  padding-top: 34px;
+  border-top: 0;
+  padding-top: 0;
 }
 
 .wine-grid {
@@ -2170,6 +2285,8 @@ video {
 .detail-video video {
   aspect-ratio: 16 / 9;
   background: #000;
+  display: block;
+  object-fit: contain;
   width: 100%;
 }
 
@@ -3318,6 +3435,18 @@ video {
     grid-template-columns: 1fr;
   }
 
+  .archive-family-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .archive-family-gallery .photo-card {
+    grid-column: auto;
+  }
+
+  .archive-family-gallery .archive-family-wide {
+    grid-column: 1 / -1;
+  }
+
   .bottle-gallery {
     margin: auto;
     max-width: 620px;
@@ -3513,6 +3642,7 @@ video {
   }
 
   .family-gallery,
+  .archive-family-gallery,
   .poppa-callout,
   .bottle-gallery,
   .story-pair,
@@ -3531,6 +3661,8 @@ video {
   }
 
   .family-gallery .photo-card,
+  .archive-family-gallery .photo-card,
+  .archive-family-gallery .archive-family-wide,
   .travel-card,
   .travel-card-wide {
     grid-column: auto;
@@ -3761,6 +3893,7 @@ video {
 
 @media (max-width: 900px) {
   .origins-intro,
+  .archive-story-grid,
   .message-opening-grid,
   .message-opening-grid-landscape,
   .family-estimate-ready {

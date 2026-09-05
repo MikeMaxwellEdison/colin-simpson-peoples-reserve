@@ -1,5 +1,5 @@
 /*
- * Family caption details that may be confirmed before Father’s Day.
+ * Centralised family captions used across the tribute.
  * To update the website, change only the words between quotation marks.
  * Every page that uses the matching key will update automatically.
  */
@@ -21,11 +21,11 @@ window.COLIN_PAGE_DETAILS = {
   martinborough:
     "Colin celebrating his and Ally’s 35th wedding anniversary in Martinborough, 25 February 2024.",
   school1956:
-    "A 1956 school photograph from Colin’s family archive. School, class and Colin’s position are still to be confirmed.",
+    "A 1956 school photograph kept in the Simpson family archive.",
   hockey1961:
-    "A 1961 hockey photograph from Colin’s family archive. The school or team, and Colin’s position, are still to be confirmed.",
+    "A 1961 hockey team photograph kept in the Simpson family archive.",
   youngTux:
-    "A young Colin dressed for a special occasion. The event and approximate year are still to be confirmed.",
+    "A young Colin, dressed in a tuxedo for a special occasion.",
   levinCup:
     "Colin with the Levin Golf Club Summer Cup, 6 February 2016.",
 };

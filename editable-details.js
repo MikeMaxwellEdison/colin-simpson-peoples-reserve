@@ -31,10 +31,14 @@ window.COLIN_PAGE_DETAILS = {
 };
 
 /*
- * The family golf estimate is deliberately kept here as one easy future update.
- * Leave this as null until Mike and Ally have agreed on the eras. When their
- * figures are ready, replace null with an object containing a `segments` array
- * in the same format used by the calculator: from, to, games, frequency, holes
- * and score. The calculator will derive and display the permanent family total.
+ * Mike and Ally's permanent family estimate, taken from their completed
+ * 5 September 2026 certificate. The certificate records the agreed totals,
+ * while Colin's editable eras remain a separate shared calculation below it.
  */
-window.COLIN_FAMILY_GOLF_ESTIMATE = null;
+window.COLIN_FAMILY_GOLF_ESTIMATE = {
+  totalHits: 172536,
+  totalGames: 1872,
+  totalHoles: 33696,
+  eraCount: 3,
+  source: "Mike & Ally · 5 September 2026",
+};

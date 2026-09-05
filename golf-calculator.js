@@ -2,7 +2,11 @@
   "use strict";
 
   const STORAGE_KEY = "colin-golf-calculator-v1";
+  const SYNC_API_URL = "https://colin-simpson-golf-sync.maxedi.chatgpt.site/api/golf-state";
   const SHARE_HASH_PREFIX = "#golf-result=";
+  const SAVE_DEBOUNCE_MS = 800;
+  const RETRY_DELAY_MS = 5000;
+  const POLL_INTERVAL_MS = 15000;
   const FREQUENCY_MULTIPLIERS = { week: 52, month: 12, year: 1 };
   const CURRENT_YEAR = 2026;
   const PDF_PAGE_WIDTH = 842;
@@ -268,6 +272,7 @@
     const segmentsElement = document.getElementById("segments");
     const addButton = document.getElementById("add-segment");
     const statusElement = document.getElementById("form-status");
+    const syncStatus = document.getElementById("sync-status");
     const resultElement = document.getElementById("calculator-result");
     const resultNumber = document.getElementById("result-number");
     const resultGames = document.getElementById("result-games");
@@ -300,15 +305,63 @@
     let currentResult = null;
     let pendingSegments = null;
     let familyResult = null;
+    let sharedVersion = 0;
+    let saveTimer = null;
+    let pendingRemoteState = null;
+    let saveInProgress = false;
+    let activeSavePromise = Promise.resolve();
+    let mutationGeneration = 0;
+    let hasUnsyncedChanges = false;
+    let isClearing = false;
+    let lastAppliedUpdatedAt = "";
 
     const emptySegment = (from = "") => ({ from, to: from, games: "", frequency: "week", holes: "9", score: "" });
     const safeNumberValue = (value) => /^\d*(?:\.\d*)?$/.test(String(value ?? "")) ? String(value ?? "") : "";
 
+    const isoTimestamp = (value) => {
+      const timestamp = Date.parse(String(value || ""));
+      return Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : "";
+    };
+
+    const normaliseState = (value) => {
+      const source = value && typeof value === "object" ? value : {};
+      const result = source.result && typeof source.result === "object" ? source.result : null;
+      const segments = Array.isArray(source.segments) ? source.segments : [];
+      const updatedAt = isoTimestamp(source.updatedAt) || isoTimestamp(result?.calculatedAt);
+      return { segments, result, updatedAt };
+    };
+
+    const stateTimestamp = (state, fallback = "") => Date.parse(normaliseState(state).updatedAt || fallback || "") || 0;
+
+    const hasMeaningfulState = (state) => {
+      const normalised = normaliseState(state);
+      if (normalised.result) return true;
+      return normalised.segments.some((segment) =>
+        [segment?.from, segment?.to, segment?.games, segment?.score].some((value) => String(value ?? "").trim() !== ""),
+      );
+    };
+
     const loadState = () => {
       try {
-        return JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "null") || {};
+        return normaliseState(JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "null"));
       } catch (_error) {
-        return {};
+        return normaliseState(null);
+      }
+    };
+
+    const saveLocalState = (state) => {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(normaliseState(state)));
+      } catch (_error) {
+        // The online record remains authoritative if private browsing blocks local storage.
+      }
+    };
+
+    const removeLocalState = () => {
+      try {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } catch (_error) {
+        // The visible calculator and online record can still be cleared.
       }
     };
 
@@ -321,12 +374,11 @@
       score: segment.querySelector('[name="score"]')?.value ?? "",
     }));
 
-    const saveState = (result = currentResult) => {
-      try {
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ segments: collectSegments(), result }));
-      } catch (_error) {
-        // The calculator still works if private browsing blocks local storage.
-      }
+    const setSyncStatus = (message, state = "") => {
+      if (!syncStatus) return;
+      syncStatus.textContent = message;
+      if (state) syncStatus.dataset.state = state;
+      else delete syncStatus.dataset.state;
     };
 
     const clearSharedHash = () => {
@@ -408,12 +460,26 @@
 
     const initialiseFamilyEstimate = () => {
       const configured = typeof window.COLIN_FAMILY_GOLF_ESTIMATE === "object" ? window.COLIN_FAMILY_GOLF_ESTIMATE : null;
-      if (!configured || !Array.isArray(configured.segments) || !configured.segments.length) return;
+      if (!configured) return;
 
       try {
-        familyResult = calculateSegments(configured.segments);
+        if (Array.isArray(configured.segments) && configured.segments.length) {
+          familyResult = calculateSegments(configured.segments);
+          familyResult.eraCount = familyResult.segments.length;
+        } else {
+          const totalHits = Number(configured.totalHits);
+          const totalGames = Number(configured.totalGames);
+          const totalHoles = Number(configured.totalHoles);
+          const eraCount = Number(configured.eraCount);
+          if (![totalHits, totalGames, totalHoles, eraCount].every(Number.isFinite) || eraCount < 1) {
+            throw new Error("The family estimate is incomplete.");
+          }
+          familyResult = { totalHits, totalGames, totalHoles, eraCount, segments: [] };
+        }
+
+        const eraCount = Number(familyResult.eraCount || familyResult.segments.length);
         familyEstimateNumber.textContent = formatNumber(familyResult.totalHits);
-        familyEstimateSummary.textContent = `${formatNumber(familyResult.totalGames)} games · ${formatNumber(familyResult.totalHoles)} holes · ${familyResult.segments.length} golfing era${familyResult.segments.length === 1 ? "" : "s"}`;
+        familyEstimateSummary.textContent = `${formatNumber(familyResult.totalGames)} games · ${formatNumber(familyResult.totalHoles)} holes · ${eraCount} golfing era${eraCount === 1 ? "" : "s"}`;
         familyEstimatePending.hidden = true;
         familyEstimateReady.hidden = false;
       } catch (_error) {
@@ -421,14 +487,16 @@
       }
     };
 
-    const showResult = (result, shouldFocus = false) => {
+    const showResult = (result, shouldFocus = false, savedAt = "") => {
       currentResult = result;
       resultNumber.textContent = formatNumber(result.totalHits);
       resultGames.textContent = formatNumber(result.totalGames);
       resultHoles.textContent = formatNumber(result.totalHoles);
       resultEras.textContent = String(result.segments.length);
-      const date = new Date(result.calculatedAt);
-      savedDate.textContent = `Saved on this device · ${date.toLocaleString("en-NZ", { dateStyle: "long", timeStyle: "short" })}`;
+      const date = new Date(savedAt || result.calculatedAt);
+      savedDate.textContent = Number.isNaN(date.getTime())
+        ? "Saved for every device"
+        : `Saved for every device · ${date.toLocaleString("en-NZ", { dateStyle: "long", timeStyle: "short" })}`;
       showFamilyComparison(result);
       updateCalculateButton();
       resultElement.hidden = false;
@@ -438,14 +506,201 @@
       }
     };
 
-    const clearSavedEstimate = () => {
+    const applyState = (state, { persist = true, message = "" } = {}) => {
+      const normalised = normaliseState(state);
+      lastAppliedUpdatedAt = normalised.updatedAt;
+      currentResult = normalised.result;
+      pendingSegments = null;
+      segmentsElement.replaceChildren();
+      const segments = normalised.segments.length ? normalised.segments : [emptySegment()];
+      segments.forEach(addSegment);
+
+      if (currentResult) {
+        showResult(currentResult, false, normalised.updatedAt);
+      } else {
+        resultElement.hidden = true;
+        familyComparison.hidden = true;
+        savedDate.textContent = "";
+        updateCalculateButton();
+      }
+
+      shareFallback.hidden = true;
+      shareStatus.textContent = "";
+      if (persist) saveLocalState(normalised);
+      if (message) setSyncStatus(message, "saved");
+    };
+
+    const requestRemote = async (method = "GET", state = null) => {
+      const options = { method, cache: "no-store", headers: { Accept: "application/json" } };
+      if (state !== null) {
+        options.headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify({ state });
+      }
+      const response = await window.fetch(SYNC_API_URL, options);
+      let payload = null;
+      try {
+        payload = await response.json();
+      } catch (_error) {
+        payload = null;
+      }
+      if (!response.ok) {
+        throw new Error(payload?.error || "The shared family record is unavailable.");
+      }
+      return payload || { state: null, version: 0 };
+    };
+
+    async function flushRemoteSave() {
+      if (saveTimer) {
+        window.clearTimeout(saveTimer);
+        saveTimer = null;
+      }
+      if (saveInProgress || isClearing || !pendingRemoteState) return activeSavePromise;
+
+      const state = pendingRemoteState;
+      const generation = mutationGeneration;
+      pendingRemoteState = null;
+      saveInProgress = true;
+      let succeeded = false;
+
+      activeSavePromise = (async () => {
+        try {
+          const response = await requestRemote("PUT", state);
+          succeeded = true;
+          if (generation !== mutationGeneration) return;
+          sharedVersion = Math.max(sharedVersion, Number(response.version) || 0);
+          if (!pendingRemoteState) {
+            hasUnsyncedChanges = false;
+            const savedState = normaliseState(response.state || state);
+            lastAppliedUpdatedAt = savedState.updatedAt || state.updatedAt;
+            saveLocalState(savedState);
+            if (currentResult) showResult(currentResult, false, lastAppliedUpdatedAt);
+            setSyncStatus("Saved to the shared family record — every device is up to date.", "saved");
+          }
+        } catch (_error) {
+          if (generation !== mutationGeneration) return;
+          if (!pendingRemoteState) pendingRemoteState = state;
+          hasUnsyncedChanges = true;
+          setSyncStatus("Saved on this device. Reconnecting to the shared family record…", "offline");
+          saveTimer = window.setTimeout(() => {
+            saveTimer = null;
+            void flushRemoteSave();
+          }, RETRY_DELAY_MS);
+        } finally {
+          saveInProgress = false;
+          if (succeeded && pendingRemoteState && generation === mutationGeneration && !isClearing) {
+            void flushRemoteSave();
+          }
+        }
+      })();
+
+      return activeSavePromise;
+    }
+
+    const queueRemoteState = (state, immediate = false) => {
+      const normalised = normaliseState(state);
+      if (!normalised.updatedAt) normalised.updatedAt = new Date().toISOString();
+      pendingRemoteState = normalised;
+      hasUnsyncedChanges = true;
+      saveLocalState(normalised);
+      setSyncStatus("Saving to the shared family record…", "saving");
+      if (saveTimer) window.clearTimeout(saveTimer);
+      if (immediate) {
+        saveTimer = null;
+        void flushRemoteSave();
+      } else {
+        saveTimer = window.setTimeout(() => {
+          saveTimer = null;
+          void flushRemoteSave();
+        }, SAVE_DEBOUNCE_MS);
+      }
+      return normalised;
+    };
+
+    const saveCurrentState = (result = currentResult, immediate = false) => {
+      clearSharedHash();
+      return queueRemoteState({
+        segments: collectSegments(),
+        result,
+        updatedAt: new Date().toISOString(),
+      }, immediate);
+    };
+
+    const initialiseSharedState = async (preferredState, forcePreferred = false) => {
+      setSyncStatus("Connecting to the shared family record…", "saving");
+      try {
+        const response = await requestRemote();
+        const remoteVersion = Number(response.version) || 0;
+        const remoteTimestamp = Date.parse(response.clientUpdatedAt || response.serverUpdatedAt || "") || 0;
+        sharedVersion = remoteVersion;
+
+        if (hasUnsyncedChanges) {
+          void flushRemoteSave();
+          return;
+        }
+
+        const localTimestamp = stateTimestamp(preferredState);
+        if (forcePreferred && hasMeaningfulState(preferredState)) {
+          queueRemoteState(preferredState, true);
+          return;
+        }
+
+        if (remoteVersion > 0 && remoteTimestamp >= localTimestamp) {
+          if (response.state) {
+            applyState(response.state, { message: "Shared family record loaded — every device is in step." });
+          } else {
+            applyState({ segments: [], result: null, updatedAt: response.clientUpdatedAt || response.serverUpdatedAt }, { message: "The shared family record is ready for a new estimate." });
+            removeLocalState();
+          }
+          return;
+        }
+
+        if (hasMeaningfulState(preferredState)) {
+          queueRemoteState(preferredState, true);
+        } else if (response.state) {
+          applyState(response.state, { message: "Shared family record loaded — every device is in step." });
+        } else {
+          setSyncStatus("Shared family record ready — changes will save on every device.", "saved");
+        }
+      } catch (_error) {
+        setSyncStatus("Working from this device for now. The shared record will reconnect automatically.", "offline");
+        if (hasMeaningfulState(preferredState)) queueRemoteState(preferredState, false);
+      }
+    };
+
+    const refreshFromRemote = async () => {
+      if (document.visibilityState === "hidden" || hasUnsyncedChanges || saveInProgress || isClearing) return;
+      try {
+        const response = await requestRemote();
+        const remoteVersion = Number(response.version) || 0;
+        if (remoteVersion <= sharedVersion) return;
+        if (form.contains(document.activeElement)) return;
+
+        sharedVersion = remoteVersion;
+        if (response.state) {
+          applyState(response.state, { message: "Updated from the shared family record." });
+        } else {
+          applyState({ segments: [], result: null, updatedAt: response.clientUpdatedAt || response.serverUpdatedAt }, { message: "The shared estimate was cleared on another device." });
+          removeLocalState();
+        }
+      } catch (_error) {
+        setSyncStatus("Working from this device for now. The shared record will reconnect automatically.", "offline");
+      }
+    };
+
+    const clearSavedEstimate = async () => {
+      mutationGeneration += 1;
+      const generation = mutationGeneration;
+      isClearing = true;
+      hasUnsyncedChanges = false;
+      pendingRemoteState = null;
+      if (saveTimer) {
+        window.clearTimeout(saveTimer);
+        saveTimer = null;
+      }
+
       currentResult = null;
       pendingSegments = null;
-      try {
-        window.localStorage.removeItem(STORAGE_KEY);
-      } catch (_error) {
-        // The visible calculator can still be cleared if storage is unavailable.
-      }
+      removeLocalState();
       clearSharedHash();
       segmentsElement.replaceChildren();
       addSegment(emptySegment());
@@ -456,6 +711,23 @@
       savedDate.textContent = "";
       statusElement.textContent = "Saved estimate cleared. Start a new estimate whenever you’re ready.";
       updateCalculateButton();
+      setSyncStatus("Clearing the shared family record…", "saving");
+
+      try {
+        await activeSavePromise.catch(() => {});
+        if (generation !== mutationGeneration) return;
+        const response = await requestRemote("DELETE");
+        sharedVersion = Number(response.version) || sharedVersion;
+        setSyncStatus("Shared estimate cleared for every device.", "saved");
+      } catch (_error) {
+        setSyncStatus("Cleared here, but the shared record could not be reached. Please try Clear again when connected.", "offline");
+      } finally {
+        if (generation === mutationGeneration) {
+          isClearing = false;
+          if (pendingRemoteState) void flushRemoteSave();
+        }
+      }
+
       form.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
     };
 
@@ -465,9 +737,8 @@
         const result = calculateSegments(pendingSegments || collectSegments());
         pendingSegments = null;
         currentResult = result;
-        saveState(result);
-        window.history.replaceState(null, "", buildShareUrl(result));
-        showResult(result, true);
+        const state = saveCurrentState(result, true);
+        showResult(result, true, state.updatedAt);
       } catch (error) {
         pendingSegments = null;
         statusElement.textContent = error instanceof Error ? error.message : "Check the golfing eras and try again.";
@@ -485,41 +756,33 @@
         statusElement.textContent = "That shared result could not be read. You can still make a new calculation below.";
       }
     }
-    const initialSegments = sharedResult?.segments || (Array.isArray(saved.segments) && saved.segments.length ? saved.segments : [emptySegment()]);
-    initialSegments.forEach(addSegment);
-    if (sharedResult) {
-      currentResult = sharedResult;
-      saveState(sharedResult);
-      showResult(sharedResult);
-      shareStatus.textContent = "Shared result loaded and saved on this device.";
-    } else if (saved.result) {
-      showResult(saved.result);
-    }
-    updateCalculateButton();
+
+    const initialState = sharedResult
+      ? { segments: sharedResult.segments, result: sharedResult, updatedAt: sharedResult.calculatedAt }
+      : saved;
+    applyState(initialState, { persist: Boolean(sharedResult || hasMeaningfulState(saved)) });
+    if (sharedResult) shareStatus.textContent = "Portable result loaded; adding it to the shared family record.";
 
     segmentsElement.addEventListener("click", (event) => {
       const remove = event.target.closest("[data-remove-segment]");
       if (!remove) return;
       remove.closest("[data-segment]")?.remove();
       updateSegmentLabels();
-      clearSharedHash();
-      saveState();
-      if (currentResult) statusElement.textContent = "Changes saved. Select Update the estimate when you’re ready.";
+      saveCurrentState(currentResult);
+      if (currentResult) statusElement.textContent = "Changes are saving. Select Update the estimate when you’re ready.";
     });
 
     form.addEventListener("input", () => {
-      statusElement.textContent = currentResult ? "Changes saved. Select Update the estimate when you’re ready." : "";
-      clearSharedHash();
-      saveState();
+      statusElement.textContent = currentResult ? "Changes are saving. Select Update the estimate when you’re ready." : "";
+      saveCurrentState(currentResult);
     });
 
     addButton.addEventListener("click", () => {
       const existing = collectSegments();
       const previousEnd = Number(existing.at(-1)?.to);
       addSegment(emptySegment(Number.isInteger(previousEnd) && previousEnd < CURRENT_YEAR ? previousEnd + 1 : ""));
-      clearSharedHash();
-      saveState();
-      if (currentResult) statusElement.textContent = "New era saved. Select Update the estimate when you’re ready.";
+      saveCurrentState(currentResult);
+      if (currentResult) statusElement.textContent = "New era is saving. Select Update the estimate when you’re ready.";
       segmentsElement.lastElementChild?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
 
@@ -557,13 +820,13 @@
 
     clearButton.addEventListener("click", () => {
       if (typeof clearDialog.showModal === "function") clearDialog.showModal();
-      else if (window.confirm("Clear the saved result and every golfing era on this device?")) clearSavedEstimate();
+      else if (window.confirm("Clear the shared result and every golfing era for everyone?")) void clearSavedEstimate();
     });
 
     cancelClearButton.addEventListener("click", () => clearDialog.close());
     confirmClearButton.addEventListener("click", () => {
       clearDialog.close();
-      clearSavedEstimate();
+      void clearSavedEstimate();
     });
 
     shareButton.addEventListener("click", async () => {
@@ -578,26 +841,26 @@
             text: `Colin’s estimated lifetime total: ${formatNumber(currentResult.totalHits)} hits.`,
             url,
           });
-          shareStatus.textContent = "Result link ready for the other device.";
+          shareStatus.textContent = "Estimate link ready to share.";
         } else {
           await copyResultLink(url);
-          shareStatus.textContent = "Result link copied. Send it to the other device and open it there.";
+          shareStatus.textContent = "Estimate link copied.";
         }
       } catch (error) {
         if (error?.name === "AbortError") return;
         revealShareFallback(url);
-        shareStatus.textContent = "Copy this portable result link and open it on the other device.";
+        shareStatus.textContent = "Copy this optional portable link to share this exact estimate.";
       }
     });
 
     copyShareLink.addEventListener("click", async () => {
       try {
         await copyResultLink(shareLink.value);
-        shareStatus.textContent = "Result link copied. Open it on the other device.";
+        shareStatus.textContent = "Estimate link copied.";
       } catch (_error) {
         shareLink.focus();
         shareLink.select();
-        shareStatus.textContent = "The link is selected. Use your browser’s Copy command, then send it to the other device.";
+        shareStatus.textContent = "The link is selected. Use your browser’s Copy command.";
       }
     });
 
@@ -605,6 +868,13 @@
       pendingSegments = null;
     });
     clearDialog.addEventListener("cancel", () => {});
+
+    void initialiseSharedState(initialState, Boolean(sharedResult));
+    window.setInterval(() => void refreshFromRemote(), POLL_INTERVAL_MS);
+    window.addEventListener("focus", () => void refreshFromRemote());
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") void refreshFromRemote();
+    });
   }
 
   if (typeof module !== "undefined" && module.exports) {

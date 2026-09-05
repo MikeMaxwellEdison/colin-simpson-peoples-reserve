@@ -2603,6 +2603,54 @@ video {
   text-align: center;
 }
 
+.sync-status {
+  align-items: center;
+  color: #5f5a4e;
+  display: flex;
+  font-size: 8px;
+  font-weight: 600;
+  gap: 8px;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  margin: 9px 0 0;
+  min-height: 18px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.sync-status::before {
+  background: #9b7a37;
+  border-radius: 50%;
+  content: "";
+  flex: 0 0 7px;
+  height: 7px;
+  width: 7px;
+}
+
+.sync-status[data-state="saved"]::before {
+  background: #547b58;
+  box-shadow: 0 0 0 3px rgba(84, 123, 88, 0.12);
+}
+
+.sync-status[data-state="saving"]::before {
+  animation: sync-pulse 1.25s ease-in-out infinite;
+}
+
+.sync-status[data-state="offline"] {
+  color: #7f4d36;
+}
+
+.sync-status[data-state="offline"]::before {
+  background: #9a5b3e;
+}
+
+@keyframes sync-pulse {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.78);
+  }
+}
+
 .calculator-actions {
   align-items: center;
   border-top: 1px solid var(--line);
